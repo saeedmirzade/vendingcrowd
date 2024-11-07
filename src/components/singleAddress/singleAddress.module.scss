@@ -1,0 +1,54 @@
+@use "../../styles/colors" as colors;
+.signleAddress {
+  display: flex;
+
+  justify-content: center;
+  position: relative;
+  border: 1px solid colors.$color_pink;
+  padding: 1rem 2rem;
+  width: calc(100% - 4rem);
+  border-radius: 10px;
+  gap: 2rem;
+  &__image {
+    img {
+      width: 15rem;
+      height: 15rem;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+  }
+  &__data {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0;
+    h3 {
+      font-size: 1.6rem;
+    }
+    p {
+      font-size: 1.5rem;
+    }
+  }
+  &__actions {
+    position: absolute;
+    top: 75%;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    &__delete {
+      color: colors.$color_red_light;
+      border: none;
+    }
+    &__edit {
+      color: colors.$color_pink_dark;
+      border: none;
+    }
+    button:hover {
+      color: colors.$color_primery !important ;
+    }
+  }
+}

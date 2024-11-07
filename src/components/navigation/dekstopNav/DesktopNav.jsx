@@ -1,0 +1,37 @@
+import { Link, NavLink } from "react-router-dom";
+import styles from "./desktopNav.module.scss";
+import { useState } from "react";
+import LogOutPop from "../../logOutPop/LogOutPop";
+function DesktopNav() {
+  const [logOut, setLogout] = useState(false);
+  return (
+    <div className={styles.desktopNav}>
+      <NavLink to={"/Home"} className={styles.desktopNav__logo}>
+        <img src="/images/logo/logo@2x.png" alt="logo" />
+      </NavLink>
+
+      <ul className={styles.desktopNav__tabs}>
+        <li>
+          <NavLink to={"/Home"}>
+            <span> Home</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to={"/Dashboard"}>
+            <span>Dashboard</span>
+          </NavLink>
+        </li>
+      </ul>
+
+      <button
+        className={styles.desktopNav__action}
+        onClick={() => setLogout(true)}
+      >
+        LogOut
+      </button>
+      <LogOutPop setLogOut={setLogout} logOut={logOut} />
+    </div>
+  );
+}
+
+export default DesktopNav;

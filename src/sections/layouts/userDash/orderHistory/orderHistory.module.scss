@@ -1,0 +1,16 @@
+@use "../../../../styles/colors" as colors;
+.orderHistory {
+  flex: 1;
+  margin-top: 2rem;
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid colors.$color_border_gray;
+    h2 {
+      font-size: 1.9rem;
+    }
+  }
+}

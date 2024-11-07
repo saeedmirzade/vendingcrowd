@@ -1,0 +1,27 @@
+@use "../../../../styles/colors" as colors;
+.sideBar {
+  flex: 0.25;
+  border: 1px solid colors.$color_pink;
+  border-radius: 25px;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+  min-height: 70svh;
+
+  li {
+    margin-bottom: 1rem;
+    button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.4rem;
+      padding: 2rem 2rem;
+      border-radius: 5px;
+      transition: all 0.3s;
+      font-weight: 600;
+      &:hover {
+        background-color: rgba(colors.$color_pink, 0.1);
+      }
+    }
+  }
+}

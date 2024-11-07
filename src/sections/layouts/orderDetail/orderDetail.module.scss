@@ -1,0 +1,7 @@
+@use "../../../styles/colors" as colors;
+.orderDetail {
+  padding: 2rem 5%;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}

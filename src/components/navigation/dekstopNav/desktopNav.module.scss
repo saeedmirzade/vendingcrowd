@@ -1,0 +1,69 @@
+@use "../../../styles/colors" as colors;
+.desktopNav {
+  padding: 2rem 5%;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  gap: 5%;
+
+  background-color: colors.$color_white;
+  border-bottom: 1px solid colors.$color_pink_dark;
+  &__logo {
+    flex: 0.25;
+    border-bottom: none;
+    img {
+      width: 100%;
+    }
+  }
+  &__tabs {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5%;
+
+    flex: 1;
+    a {
+      font-size: 1.5rem;
+      position: relative;
+      font-weight: 600;
+      &::after {
+        position: absolute;
+        content: "";
+        top: 100%;
+        left: 50%;
+        width: 0%;
+        height: 1px;
+        background-color: colors.$color_pink;
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+      }
+      &:hover {
+        color: colors.$color_pink;
+        &::after {
+          width: 100%;
+          left: 0;
+        }
+      }
+    }
+  }
+  &__action {
+    font-weight: 600;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    background-color: colors.$color_primery;
+    padding: 1rem 2rem;
+    color: white;
+    border-radius: 35px;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: colors.$color_secondry;
+      box-shadow: 0px 2px 2px black;
+    }
+    &:active {
+      box-shadow: none;
+    }
+  }
+}

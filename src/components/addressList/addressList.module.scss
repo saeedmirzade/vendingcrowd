@@ -1,0 +1,23 @@
+@use "../../styles/colors" as colors;
+.addressList {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  h2 {
+    margin: 2rem 0;
+  }
+  &__add {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 4rem 0;
+    font-size: 4rem;
+    font-weight: 200;
+    border: 2px dashed rgba(0, 0, 0, 0.123);
+    color: rgba(0, 0, 0, 0.123);
+    &:hover {
+      border: 2px dashed colors.$color_pink;
+      color: colors.$color_pink;
+    }
+  }
+}

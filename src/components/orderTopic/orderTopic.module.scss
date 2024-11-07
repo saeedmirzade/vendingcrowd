@@ -1,0 +1,35 @@
+@use "../../styles/colors" as colors;
+.orderTopic {
+  flex: 0.25;
+  border: 1px solid colors.$color_pink;
+  padding: 1rem 2rem;
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+  ul {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+  }
+  li {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    p {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    span {
+      font-size: 1.5rem;
+      font-weight: 300;
+    }
+    img {
+      width: 20rem;
+      height: 30rem;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid colors.$color_border_gray;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@use "../../styles/colors" as colors;
+.addVendingForm {
+  &__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+  }
+}

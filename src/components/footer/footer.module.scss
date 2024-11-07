@@ -1,0 +1,8 @@
+@use "../../styles/colors" as colors;
+.footer {
+  background-color: colors.$color_brownish;
+  font-size: 1.4rem;
+  color: white;
+  padding: 2rem 5%;
+  margin-top: 2rem;
+}

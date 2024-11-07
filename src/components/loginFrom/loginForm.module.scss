@@ -1,0 +1,65 @@
+@use "../../styles/colors" as colors;
+.loginFrom {
+  padding: 1rem 3rem;
+  width: calc(100% - 6rem);
+  h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: colors.$color_primery;
+  }
+  &__submit {
+    padding: 2rem 0;
+    width: 100%;
+    margin-top: 1rem;
+    background-color: colors.$color_primery;
+    border-radius: 5px;
+    color: colors.$color_white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    &:hover {
+      background-color: colors.$color_secondry !important;
+      color: colors.$color_white !important;
+      border: none !important;
+    }
+  }
+  &__box {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    position: relative;
+    input {
+      height: 4rem;
+      width: calc(100% - 2rem);
+      border: 1px solid colors.$color_border_gray;
+
+      padding: 0 1rem;
+      border-radius: 5px;
+      font-size: 1.3rem;
+    }
+    label {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    button {
+      position: absolute;
+      right: 1rem;
+      top: 3.2rem;
+      font-size: 1.8rem;
+    }
+    &__forgetPass {
+      position: relative !important;
+      top: 0 !important;
+      right: 0 !important;
+      font-size: 1.2rem !important;
+      color: colors.$color_link;
+    }
+    &__explain {
+      color: colors.$color_red_light;
+    }
+  }
+}

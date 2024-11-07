@@ -1,0 +1,36 @@
+@use "../../../../styles/colors" as colors;
+.info {
+  margin-top: 2rem;
+  flex: 1;
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem;
+    h2 {
+      font-size: 2rem;
+    }
+    button {
+      font-size: 1.4rem;
+      border: 1px solid colors.$color_primery;
+      padding: 1rem 2rem;
+      border-radius: 35px;
+      color: colors.$color_primery;
+      background-color: rgba(colors.$color_primery, 0.1);
+      transition: all 0.3s;
+      &:hover {
+        box-shadow: 0 1px 1px black;
+        background-color: rgba(colors.$color_primery, 1);
+        color: colors.$color_white;
+      }
+      &:active {
+        box-shadow: none;
+      }
+    }
+  }
+  table {
+    border: 1px solid colors.$color_pink;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+}
