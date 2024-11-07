@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navigation from "../../../../components/navigation/Navigation";
+
 import styles from "./info.module.scss";
 import { Table } from "antd";
 import AddItem from "../../../../components/addItem/AddItem";
@@ -56,8 +56,6 @@ const columns = [
           src={record.image}
           alt={record.item}
           style={{
-            width: 60,
-            height: 60,
             marginRight: 8,
             objectFit: "cover",
             borderRadius: "5px",

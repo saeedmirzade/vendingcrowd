@@ -7,7 +7,7 @@ function SideBar({ page }) {
     <ul className={styles.sideBar}>
       <li>
         <button
-          onClick={() => navigate("/Dashboard")}
+          onClick={() => navigate("/dashboard")}
           style={{
             backgroundColor: `${!page ? "#b79ced7e" : ""}`,
           }}
@@ -18,9 +18,9 @@ function SideBar({ page }) {
       </li>
       <li>
         <button
-          onClick={() => navigate("/Dashboard/Data")}
+          onClick={() => navigate("/dashboard/data")}
           style={{
-            backgroundColor: `${page === "Data" ? "#b79ced7e" : ""}`,
+            backgroundColor: `${page === "data" ? "#b79ced7e" : ""}`,
           }}
         >
           <span>Personal data</span>
@@ -29,9 +29,9 @@ function SideBar({ page }) {
       </li>
       <li>
         <button
-          onClick={() => navigate("/Dashboard/History")}
+          onClick={() => navigate("/dashboard/history")}
           style={{
-            backgroundColor: `${page === "History" ? "#b79ced7e" : ""}`,
+            backgroundColor: `${page === "history" ? "#b79ced7e" : ""}`,
           }}
         >
           <span>Order History</span>

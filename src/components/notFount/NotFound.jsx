@@ -1,8 +1,12 @@
+import Navigation from "../navigation/Navigation";
 function NotFound() {
   return (
-    <div>
-      <h1 style={{ fontWeight: "900" }}>Page Not Found</h1>
-    </div>
+    <>
+      <Navigation />
+      <div>
+        <h1 style={{ fontWeight: "900" }}>Page Not Found</h1>
+      </div>
+    </>
   );
 }
 

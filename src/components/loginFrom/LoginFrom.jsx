@@ -60,7 +60,7 @@ function LoginFrom({ sign, setIsModalVisible }) {
       return;
 
     if (sign) {
-      navigate("/Home");
+      navigate("/home");
     } else {
       setIsModalVisible(true);
     }

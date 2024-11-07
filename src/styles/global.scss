@@ -4,6 +4,15 @@ html {
   font-size: 62.5%;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  @media (max-width: 1200px) {
+    font-size: 55%;
+  }
+  @media (max-width: 950px) {
+    font-size: 40%;
+  }
+  @media (max-width: 600px) {
+    font-size: 30%;
+  }
 }
 
 body {
@@ -23,6 +32,9 @@ main {
 }
 h1 {
   font-size: 4em;
+  @media (max-width: 1200px) {
+    font-size: 3.5rem;
+  }
 }
 hr {
   box-sizing: content-box;
@@ -241,7 +253,82 @@ progress::-moz-progress-bar {
   color: #4d47a9 !important;
   border-bottom: 1px solid #4d47a9;
 }
-// $color_secondry: #7a74d1;
-// $color_brownish: #302b27;
-// $color_pink: #b79ced;
-// $color_pink_dark: #a07178;
+.ant-btn {
+  padding: 1.2rem 2.4rem;
+  font-size: 1.4rem !important;
+}
+.ant-modal-title {
+  font-size: 1.6rem !important;
+}
+.ant-form-item {
+  margin-bottom: 2.4rem;
+  @media (max-width: 1024px) {
+    margin-bottom: 1.4rem;
+    width: calc(50% - 1rem);
+    flex: unset !important;
+  }
+  @media (max-width: 400px) {
+    width: 100%;
+  }
+}
+label,
+input,
+.ant-select-selector,
+.ant-select-item,
+.ant-input {
+  font-size: 1.2rem !important;
+  @media (max-width: 950px) {
+    font-size: 1.5rem !important;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.6rem !important;
+  }
+}
+.ant-pagination {
+  @media (max-width: 950px) {
+    scale: 0.8;
+    margin-left: 50% !important;
+  }
+  @media (max-width: 600px) {
+    scale: 0.8;
+  }
+}
+.ant-table-cell {
+  font-size: 1.4rem !important;
+  padding: 1.6rem !important;
+  img {
+    width: 6rem;
+    height: 6rem;
+    @media (max-width: 950px) {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+  @media (max-width: 950px) {
+    font-size: 1.5rem !important;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.6rem !important;
+  }
+}
+.ant-col {
+  padding-bottom: 0.8rem;
+  @media (max-width: 990px) {
+    padding-bottom: 0 !important;
+  }
+  .ant-upload-list-item-name {
+    font-size: 1.4rem !important;
+    @media (max-width: 950px) {
+      font-size: 1.5rem !important;
+    }
+    @media (max-width: 600px) {
+      font-size: 1.6rem !important;
+      padding: 0 0.8rem;
+    }
+  }
+  .ant-upload-list-item {
+    @media (max-width: 600px) {
+      padding: 0 0.8rem !important;
+    }
+  }
+}

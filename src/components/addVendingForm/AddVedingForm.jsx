@@ -153,7 +153,8 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
       handleFieldChange("state", value);
       handleFieldChange("warehouse", "Loading...");
       setTimeout(() => handleFieldChange("warehouse", "Warehouse 1"), 1000);
-      const newCenter = stateCoordinates[states.indexOf(value)];
+      const coorts = value.charAt(0).toUpperCase() + value.slice(1);
+      const newCenter = stateCoordinates[states.indexOf(coorts)];
       setMapCenter(newCenter);
     },
     [handleFieldChange]
@@ -165,8 +166,6 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
 
   useEffect(() => {
     if (formValues.state) {
-      const newCenter = stateCoordinates[states.indexOf(formValues.state)];
-      setMapCenter(newCenter);
       setMapKey((prevKey) => prevKey + 1);
     }
     if (formValues.locationCoordinates) {
@@ -307,7 +306,10 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             <Select
               placeholder="Select State"
               value={formValues.state}
-              options={states.map((state) => ({ label: state, value: state }))}
+              options={states.map((state) => ({
+                label: state,
+                value: state.toLowerCase(),
+              }))}
               onChange={handleStateChange}
             />
           </Form.Item>

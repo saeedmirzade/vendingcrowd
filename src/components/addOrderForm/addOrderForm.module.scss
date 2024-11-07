@@ -2,9 +2,25 @@
 .addOrderForm {
   width: 100%;
   margin: 2rem 0;
+  p {
+    @media (max-width: 1024px) {
+      font-size: 1.4rem;
+    }
+  }
   &__row {
     display: flex;
     align-items: flex-start;
     gap: 2rem;
+    @media (max-width: 1024px) {
+      flex-wrap: wrap;
+    }
+    span {
+      @media (max-width: 1024px) {
+        font-size: 1.4rem;
+      }
+    }
+  }
+  div {
+    width: 100% !important;
   }
 }

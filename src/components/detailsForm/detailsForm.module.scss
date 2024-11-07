@@ -7,5 +7,10 @@
     display: flex;
     align-items: flex-start;
     gap: 2rem;
+    @media (max-width: 1025px) {
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+    }
   }
 }

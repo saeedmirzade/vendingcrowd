@@ -17,7 +17,7 @@ function Login() {
   const responseFacebook = (response) => {};
 
   const handleOk = () => {
-    navigate("/Home");
+    navigate("/home");
   };
 
   const handleCancel = () => {

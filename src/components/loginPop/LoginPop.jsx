@@ -49,7 +49,7 @@ function LoginPop({ show = true, handleOk, handleCancel }) {
       setEmailCode(true);
       return;
     }
-    navigate("/Home");
+    navigate("/home");
   };
 
   const handleOkPass = () => {

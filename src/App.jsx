@@ -20,10 +20,10 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/Home" element={<Home />} />
-            <Route path="/Dashboard" element={<UserDash />} />
-            <Route path="/Dashboard/:page" element={<UserDash />} />
-            <Route path="/OrderDetails/:id" element={<OrderDetail />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/dashboard" element={<UserDash />} />
+            <Route path="/dashboard/:page" element={<UserDash />} />
+            <Route path="/order-details/:id" element={<OrderDetail />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

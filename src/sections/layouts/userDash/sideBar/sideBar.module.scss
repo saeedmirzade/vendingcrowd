@@ -2,11 +2,21 @@
 .sideBar {
   flex: 0.25;
   border: 1px solid colors.$color_pink;
-  border-radius: 25px;
+  border-radius: 15px;
   padding: 2rem 1rem;
   margin-top: 2rem;
   min-height: 70svh;
-
+  @media (max-width: 1200px) {
+    flex: 0.4;
+    border-radius: 10px;
+  }
+  @media (max-width: 700px) {
+    flex: 0.3;
+    border-radius: 5px;
+  }
+  @media (max-width: 400px) {
+    min-height: unset;
+  }
   li {
     margin-bottom: 1rem;
     button {
@@ -21,6 +31,15 @@
       font-weight: 600;
       &:hover {
         background-color: rgba(colors.$color_pink, 0.1);
+      }
+      @media (max-width: 1200px) {
+        font-size: 1.2rem;
+      }
+      @media (max-width: 900px) {
+        font-size: 1.4rem;
+      }
+      @media (max-width: 600px) {
+        font-size: 1.6rem;
       }
     }
   }

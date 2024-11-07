@@ -121,7 +121,7 @@ function AddOrderForm({
 
   const handleWorkOrderTypeChange = (value) => {
     handleFieldChange("workOrderType", value);
-    setShowRestock(value.includes("Restock"));
+    setShowRestock(value.includes("restock"));
   };
 
   const onclose = () => {
@@ -134,7 +134,7 @@ function AddOrderForm({
   const handleSubmit = () => {
     message.success("Order Has been Sent Successfully");
     onclose();
-    navigator("/Dashboard/History");
+    navigator("/dashboard/history");
   };
 
   return (
@@ -144,7 +144,7 @@ function AddOrderForm({
       onCancel={onclose}
       okText="Submit"
       onOk={() => form.submit()}
-      width="40svw"
+      width="60svw"
       style={{ top: "20px" }}
     >
       <Form
@@ -166,7 +166,7 @@ function AddOrderForm({
               onChange={(value) => handleFieldChange("location", value)}
             >
               {states.map((state) => (
-                <Option key={state} value={state}>
+                <Option key={state} value={state.toLowerCase()}>
                   {state}
                 </Option>
               ))}
@@ -200,7 +200,7 @@ function AddOrderForm({
               )}
             >
               {machineList.map((machine) => (
-                <Option key={machine} value={machine}>
+                <Option key={machine} value={machine.toLowerCase()}>
                   {machine}
                 </Option>
               ))}
@@ -230,12 +230,12 @@ function AddOrderForm({
               // value={formValues.workOrderType}
               onChange={handleWorkOrderTypeChange}
             >
-              <Option value="Restock">Restock</Option>
-              <Option value="Maintenance">Maintenance</Option>
-              <Option value="Restock & Maintenance">
+              <Option value="restock">Restock</Option>
+              <Option value="maintenance">Maintenance</Option>
+              <Option value="restock-&-maintenance">
                 Restock & Maintenance
               </Option>
-              <Option value="Maintenance Assessment">
+              <Option value="maintenance-assessment">
                 Maintenance Assessment
               </Option>
             </Select>
@@ -254,7 +254,7 @@ function AddOrderForm({
                 onChange={(value) => handleFieldChange("products", value)}
               >
                 {["Product A", "Product B", "Product C"].map((product) => (
-                  <Option key={product} value={product}>
+                  <Option key={product} value={product.toLowerCase()}>
                     {product}
                   </Option>
                 ))}
@@ -274,8 +274,8 @@ function AddOrderForm({
               // value={formValues.collectCash}
               onChange={(value) => handleFieldChange("collectCash", value)}
             >
-              <Option value="Yes">Yes</Option>
-              <Option value="No">No</Option>
+              <Option value="yes">Yes</Option>
+              <Option value="no">No</Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -287,7 +287,7 @@ function AddOrderForm({
             <Select
               placeholder="Select task duration"
               // value={formValues.taskTime}
-              onChange={(value) => handleFieldChange("taskTime", value)}
+              onChange={(value) => handleFieldChange("task-time", value)}
             >
               {Array.from({ length: 16 }, (_, i) => (
                 <Option key={i} value={`${(i / 2 + 1).toFixed(1)} hours`}>
@@ -311,38 +311,14 @@ function AddOrderForm({
               })
             }
           />
-          <DatePicker
-            value={formValues.workDate ? moment(formValues.workDate) : null}
-            onChange={(date) =>
-              setFormValues({
-                ...formValues,
-                workDate: date ? date.toDate() : null,
-              })
-            }
-          />
         </Form.Item>
 
-        <Form.Item label="Time Slot" style={{ marginBottom: 0 }}>
+        <div className={styles.addOrderForm__row}>
           <Form.Item
             name="startTime"
             rules={[{ required: true }]}
             style={{ display: "inline-block", width: "48%" }}
           >
-            <TimePicker
-              value={
-                formValues.startTime
-                  ? moment(formValues.startTime, "HH:mm")
-                  : null
-              }
-              onChange={(time) =>
-                handleFieldChange(
-                  "startTime",
-                  time ? moment(time).format("HH:mm") : null
-                )
-              }
-              placeholder="Start Time"
-              format="HH:mm"
-            />
             <TimePicker
               value={
                 formValues.startTime
@@ -383,18 +359,8 @@ function AddOrderForm({
               placeholder="End Time"
               format="HH:mm"
             />
-            <TimePicker
-              value={
-                formValues.endTime ? moment(formValues.endTime, "HH:mm") : null
-              }
-              onChange={(time) =>
-                handleFieldChange("endTime", time ? moment(time) : null)
-              }
-              placeholder="End Time"
-              format="HH:mm"
-            />
           </Form.Item>
-        </Form.Item>
+        </div>
 
         <Form.Item label="Special Instructions" name="instructions">
           <Input.TextArea

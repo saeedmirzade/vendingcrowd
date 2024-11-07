@@ -6,18 +6,18 @@ function DesktopNav() {
   const [logOut, setLogout] = useState(false);
   return (
     <div className={styles.desktopNav}>
-      <NavLink to={"/Home"} className={styles.desktopNav__logo}>
+      <NavLink to={"/home"} className={styles.desktopNav__logo}>
         <img src="/images/logo/logo@2x.png" alt="logo" />
       </NavLink>
 
       <ul className={styles.desktopNav__tabs}>
         <li>
-          <NavLink to={"/Home"}>
+          <NavLink to={"/home"}>
             <span> Home</span>
           </NavLink>
         </li>
         <li>
-          <NavLink to={"/Dashboard"}>
+          <NavLink to={"/dashboard"}>
             <span>Dashboard</span>
           </NavLink>
         </li>

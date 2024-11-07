@@ -9,15 +9,23 @@
   margin-top: 2%;
   position: relative;
   border-radius: 15px;
-
+  @media (max-width: 400px) {
+    flex-direction: column;
+  }
   &__image {
     flex: 1;
+    @media (max-width: 400px) {
+      width: 80%;
+    }
     img {
       max-width: 100%;
       border-radius: 15px;
     }
   }
   &__text {
+    @media (max-width: 400px) {
+      order: 1;
+    }
     flex: 1;
     display: flex;
     align-items: flex-start;
@@ -27,6 +35,14 @@
     p {
       font-size: 1.6rem;
       line-height: 3rem;
+      @media (max-width: 700px) {
+        font-size: 1.4rem;
+      }
+    }
+    h1 {
+      @media (max-width: 700px) {
+        font-size: 2.5rem;
+      }
     }
     button {
       padding: 1.5rem 3rem;
@@ -42,6 +58,11 @@
       }
       &:active {
         box-shadow: none;
+      }
+      @media (max-width: 700px) {
+        margin-top: 0rem;
+        font-size: 1.4rem;
+        padding: 1.2rem 2rem;
       }
     }
   }

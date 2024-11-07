@@ -19,8 +19,8 @@ function UserDash() {
         <div className={styles.userDash}>
           <SideBar page={page} />
           {!page && <Info />}
-          {page === "History" && <OrderHistory />}
-          {page === "Data" && <Details />}
+          {page === "history" && <OrderHistory />}
+          {page === "data" && <Details />}
         </div>
       </Suspense>
       <Footer />

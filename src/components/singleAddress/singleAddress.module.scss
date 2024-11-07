@@ -39,6 +39,13 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    @media (max-width: 990px) {
+      top: 70%;
+    }
+    @media (max-width: 600px) {
+      top: 60%;
+      font-size: 1rem !important;
+    }
     &__delete {
       color: colors.$color_red_light;
       border: none;

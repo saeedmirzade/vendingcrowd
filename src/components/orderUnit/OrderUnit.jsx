@@ -47,7 +47,7 @@ function OrderUnit({ order, setInisial, setOpenOrder }) {
         >
           Duplicate Order
         </button>
-        <button onClick={() => navigate(`/OrderDetails/${order.id}`)}>
+        <button onClick={() => navigate(`/order-details/${order.id}`)}>
           Check Details
         </button>
       </div>

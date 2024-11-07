@@ -6,6 +6,12 @@
   display: flex;
   border-radius: 10px;
   align-items: center;
+  @media (max-width: 1024px) {
+    flex: 0.45;
+  }
+  @media (max-width: 400px) {
+    width: calc(100% - 4rem);
+  }
   ul {
     display: flex;
     flex-direction: column;
@@ -25,11 +31,10 @@
       font-weight: 300;
     }
     img {
-      width: 20rem;
-      height: 30rem;
+      width: 15rem;
+      height: 25rem;
       object-fit: contain;
       border-radius: 10px;
-      border: 1px solid colors.$color_border_gray;
     }
   }
 }

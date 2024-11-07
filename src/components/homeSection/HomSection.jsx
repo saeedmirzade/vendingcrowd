@@ -1,7 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import styles from "./homeSection.module.scss";
 function HomSection({ img, text, navigate, children, order, title, shadow }) {
-  const navigator = useNavigate();
   return (
     <div
       className={styles.homeSection}

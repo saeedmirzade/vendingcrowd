@@ -97,7 +97,7 @@ function Home() {
         order={homeData[1].order}
         title={homeData[1].title}
       >
-        <button onClick={() => navigator("/Dashboard")}>check Inventory</button>
+        <button onClick={() => navigator("/dashboard")}>check Inventory</button>
       </HomSection>
       <HomeFeature featureData={featureData} />
       <HomSection
