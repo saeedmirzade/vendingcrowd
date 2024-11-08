@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useCallback } from "react";
 import AddressList from "../../../../components/addressList/AddressList";
 import DetailsForm from "../../../../components/detailsForm/DetailsForm";
 import styles from "./details.module.scss";
@@ -7,6 +7,7 @@ import Loader from "../../../../components/Loader";
 const AddVendingForm = lazy(() =>
   import("../../../../components/addVendingForm/AddVedingForm")
 );
+
 const states = [
   "Alabama",
   "Alaska",
@@ -61,7 +62,7 @@ const states = [
 ];
 
 function Details() {
-  const [addMachine, setAddMachine] = useState();
+  const [addMachine, setAddMachine] = useState(false);
   const [data, setData] = useState({
     warehouse: "",
     address: "",
@@ -71,24 +72,28 @@ function Details() {
     postalCode: "",
     additionalNote: "",
     addressNote: "",
-    locationCoordinates: {
-      lat: "",
-      lng: "",
-    },
+    locationCoordinates: { lat: "", lng: "" },
     id: "",
     img: "",
   });
+
+  const handleDataChange = useCallback((newData) => {
+    setData((prevData) => ({ ...prevData, ...newData }));
+  }, []);
 
   return (
     <div className={styles.details}>
       <DetailsForm states={states} />
       <Suspense fallback={<Loader />}>
-        <AddressList setData={setData} setVendingOpen={setAddMachine} />
+        <AddressList
+          setData={handleDataChange}
+          setVendingOpen={setAddMachine}
+        />
         <AddVendingForm
           inisial={data}
           vendingOpen={addMachine}
           setVendingOpen={setAddMachine}
-          setData={setData}
+          setData={handleDataChange}
         />
       </Suspense>
     </div>

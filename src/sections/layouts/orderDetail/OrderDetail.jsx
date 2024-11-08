@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useParams, useMemo } from "react-router-dom";
 import styles from "./orderDetail.module.scss";
 import Navigation from "../../../components/navigation/Navigation";
 import Footer from "../../../components/footer/Footer";
 import OrderTopic from "../../../components/orderTopic/OrderTopic";
 import OrderDetailsData from "../../../components/orderDetailsData/ORderDetailsData";
+
 const order = {
   id: 12345,
   location: "California",
@@ -21,14 +22,17 @@ const order = {
   finishedImg: "/images/address/vending.jpg",
   price: "$35",
 };
+
 function OrderDetail() {
   const { id } = useParams();
+  const orderData = useMemo(() => order, [id]);
+
   return (
     <>
       <Navigation />
       <div className={styles.orderDetail}>
-        <OrderTopic item={order} />
-        <OrderDetailsData item={order} />
+        <OrderTopic item={orderData} />
+        <OrderDetailsData item={orderData} />
       </div>
       <Footer />
     </>

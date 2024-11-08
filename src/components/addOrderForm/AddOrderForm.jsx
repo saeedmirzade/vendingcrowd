@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Modal,
   Form,
@@ -110,41 +110,47 @@ function AddOrderForm({
       setShowRestock(initial.workOrderType.includes("Restock"));
     }
   }, [initial, form]);
-  const handleFieldChange = (name, value) => {
+  const handleFieldChange = useCallback((name, value) => {
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
-  };
+  }, []);
 
-  const handleFileListChange = ({ fileList }) => setFileList(fileList);
+  const handleFileListChange = useCallback(
+    ({ fileList }) => setFileList(fileList),
+    []
+  );
 
-  const handleWorkOrderTypeChange = (value) => {
-    handleFieldChange("workOrderType", value);
-    setShowRestock(value.includes("restock"));
-  };
+  const handleWorkOrderTypeChange = useCallback(
+    (value) => {
+      handleFieldChange("workOrderType", value);
+      setShowRestock(value.includes("restock"));
+    },
+    [handleFieldChange]
+  );
 
-  const onclose = () => {
+  const handleCancel = useCallback(() => {
     form.resetFields();
     setOrderPop(false);
     if (initial) setInitial(defaultValues);
     setFormValues(defaultValues);
-  };
+  }, [form, setOrderPop, initial, setInitial]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     message.success("Order Has been Sent Successfully");
-    onclose();
+    handleCancel();
     navigator("/dashboard/history");
-  };
+  }, [navigator, handleCancel]);
 
   return (
     <Modal
       title="Add New Order"
       open={orderPop}
-      onCancel={onclose}
+      onCancel={handleCancel}
       okText="Submit"
       onOk={() => form.submit()}
-      width="60svw"
+      width={window.innerWidth < 700 ? "80vw" : "60vw"}
       style={{ top: "20px" }}
     >
       <Form
@@ -162,7 +168,6 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select a location"
-              // value={formValues.location}
               onChange={(value) => handleFieldChange("location", value)}
             >
               {states.map((state) => (
@@ -181,7 +186,6 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select a machine"
-              // value={formValues.machine}
               onChange={(value) => handleFieldChange("machine", value)}
               dropdownRender={(menu) => (
                 <>
@@ -227,7 +231,6 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select work order type"
-              // value={formValues.workOrderType}
               onChange={handleWorkOrderTypeChange}
             >
               <Option value="restock">Restock</Option>
@@ -250,7 +253,6 @@ function AddOrderForm({
               <Select
                 mode="multiple"
                 placeholder="Select products"
-                // value={formValues.products}
                 onChange={(value) => handleFieldChange("products", value)}
               >
                 {["Product A", "Product B", "Product C"].map((product) => (
@@ -271,7 +273,6 @@ function AddOrderForm({
           >
             <Select
               placeholder="Yes or No"
-              // value={formValues.collectCash}
               onChange={(value) => handleFieldChange("collectCash", value)}
             >
               <Option value="yes">Yes</Option>
@@ -286,8 +287,7 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select task duration"
-              // value={formValues.taskTime}
-              onChange={(value) => handleFieldChange("task-time", value)}
+              onChange={(value) => handleFieldChange("taskTime", value)}
             >
               {Array.from({ length: 16 }, (_, i) => (
                 <Option key={i} value={`${(i / 2 + 1).toFixed(1)} hours`}>

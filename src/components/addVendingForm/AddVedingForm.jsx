@@ -261,7 +261,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
       onCancel={onClose}
       onOk={() => form.submit()}
       okText="Comfirm"
-      width="60vw"
+      width={window.innerWidth < 700 ? "80svw" : "60svw"}
       style={{ top: "20px" }}
     >
       <Form

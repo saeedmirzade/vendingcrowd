@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styles from "./loginPop.module.scss";
 import { useNavigate } from "react-router-dom";
 
 const strictEmailRegex =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
 
-function LoginPop({ show = true, handleOk, handleCancel }) {
+const LoginPop = ({ show = true, handleOk, handleCancel }) => {
   const [userName, setUserName] = useState("");
   const [code, setCode] = useState("");
   const [codeCheck, setCodeCheck] = useState(false);
@@ -22,48 +22,45 @@ function LoginPop({ show = true, handleOk, handleCancel }) {
     }
   }, [timer]);
 
-  const handleChange = (e) => {
-    setUserName(e.target.value);
-  };
-
-  const handleChangeC = (e) => {
+  const handleChange = useCallback((e) => setUserName(e.target.value), []);
+  const handleChangeC = useCallback((e) => {
     setCodeCheck(false);
     setCode(e.target.value);
-  };
+  }, []);
 
-  const handleCancelBtn = () => {
+  const handleCancelBtn = useCallback(() => {
     resetForm();
     handleCancel();
-  };
+  }, [handleCancel]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setCode("");
     setUserName("");
     setCodeCheck(false);
     setEmailCode(false);
     setTimer(60);
-  };
+  }, []);
 
-  const handleOkCode = () => {
+  const handleOkCode = useCallback(() => {
     if (!emailCode) {
       setEmailCode(true);
       return;
     }
     navigate("/home");
-  };
+  }, [emailCode, navigate]);
 
-  const handleOkPass = () => {
+  const handleOkPass = useCallback(() => {
     if (code.length === 6) {
       handleOk();
     } else {
       setCodeCheck(true);
     }
-  };
+  }, [code, handleOk]);
 
-  const handleResend = () => {
+  const handleResend = useCallback(() => {
     setCode("");
     setTimer(60);
-  };
+  }, []);
 
   return (
     <div className={styles.loginPop}>
@@ -135,6 +132,6 @@ function LoginPop({ show = true, handleOk, handleCancel }) {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPop;

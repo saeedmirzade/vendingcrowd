@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./loginForm.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
@@ -8,7 +8,7 @@ const strictEmailRegex =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
 const strictPasswordRegex = /^(?=.*\d)[A-Za-z\d]{6,}$/;
 
-function LoginFrom({ sign, setIsModalVisible }) {
+const LoginFrom = ({ sign, setIsModalVisible }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: "",
@@ -32,39 +32,42 @@ function LoginFrom({ sign, setIsModalVisible }) {
     setShowPassword(false);
   }, [sign]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setValidationErrors((prev) => ({ ...prev, [name]: false }));
-  };
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { userName, password, passwordR } = formData;
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { userName, password, passwordR } = formData;
 
-    const isNameInvalid = !userName || !strictEmailRegex.test(userName);
-    const isPassInvalid = !password || !strictPasswordRegex.test(password);
-    const isConfirmPassInvalid = sign ? false : password !== passwordR;
+      const isNameInvalid = !userName || !strictEmailRegex.test(userName);
+      const isPassInvalid = !password || !strictPasswordRegex.test(password);
+      const isConfirmPassInvalid = sign ? false : password !== passwordR;
 
-    setValidationErrors({
-      name: isNameInvalid,
-      password: isPassInvalid,
-      passwordR: isConfirmPassInvalid,
-    });
+      setValidationErrors({
+        name: isNameInvalid,
+        password: isPassInvalid,
+        passwordR: isConfirmPassInvalid,
+      });
 
-    if (
-      isNameInvalid ||
-      isPassInvalid ||
-      (sign === false && isConfirmPassInvalid)
-    )
-      return;
+      if (
+        isNameInvalid ||
+        isPassInvalid ||
+        (sign === false && isConfirmPassInvalid)
+      )
+        return;
 
-    if (sign) {
-      navigate("/home");
-    } else {
-      setIsModalVisible(true);
-    }
-  };
+      if (sign) {
+        navigate("/home");
+      } else {
+        setIsModalVisible(true);
+      }
+    },
+    [formData, sign, navigate, setIsModalVisible]
+  );
 
   return (
     <form className={styles.loginFrom} onSubmit={handleSubmit}>
@@ -141,6 +144,6 @@ function LoginFrom({ sign, setIsModalVisible }) {
       </Button>
     </form>
   );
-}
+};
 
 export default LoginFrom;

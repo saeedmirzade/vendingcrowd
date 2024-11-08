@@ -3,15 +3,20 @@ import { useParams } from "react-router-dom";
 import styles from "./userDash.module.scss";
 import SideBar from "./sideBar/SideBar";
 import Footer from "../../../components/footer/Footer";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useMemo } from "react";
 import Loader from "../../../components/Loader";
 import ScrollToTop from "../../../components/scrollToTop/ScrollToTop";
+
 function UserDash() {
   const { page } = useParams();
 
-  const Info = lazy(() => import("./info/Info"));
-  const OrderHistory = lazy(() => import("./orderHistory/OrderHistory"));
-  const Details = lazy(() => import("./details/Details"));
+  const Info = useMemo(() => lazy(() => import("./info/Info")), []);
+  const OrderHistory = useMemo(
+    () => lazy(() => import("./orderHistory/OrderHistory")),
+    []
+  );
+  const Details = useMemo(() => lazy(() => import("./details/Details")), []);
+
   return (
     <>
       <Navigation />

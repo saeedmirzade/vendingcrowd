@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import LoginFrom from "../../../components/loginFrom/LoginFrom";
 import styles from "./login.module.scss";
 import { Modal } from "antd";
@@ -13,16 +13,16 @@ function Login() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
-  const responseGoogle = (response) => {};
-  const responseFacebook = (response) => {};
+  const responseGoogle = useCallback((response) => {}, []);
+  const responseFacebook = useCallback((response) => {}, []);
 
-  const handleOk = () => {
+  const handleOk = useCallback(() => {
     navigate("/home");
-  };
+  }, [navigate]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setIsModalVisible(false);
-  };
+  }, []);
 
   return (
     <div className={styles.login}>
@@ -37,7 +37,7 @@ function Login() {
           ) : (
             <p>already have an account?</p>
           )}
-          <button onClick={() => setSignIn(!signIn)}>
+          <button onClick={() => setSignIn((prev) => !prev)}>
             {signIn ? "Sign Up" : "Sign In"}
           </button>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import AddOrderForm from "../../../../components/addOrderForm/AddOrderForm";
 import OrderUnit from "../../../../components/orderUnit/OrderUnit";
 import styles from "./orderHistory.module.scss";
@@ -6,6 +6,7 @@ import AddVendingForm from "../../../../components/addVendingForm/AddVedingForm"
 import { Select } from "antd";
 
 const { Option } = Select;
+
 const orderList = [
   {
     id: 1234,
@@ -87,7 +88,7 @@ const orderList = [
 function OrderHistory() {
   const [openOrder, setOpenOrder] = useState(false);
   const [openVending, setOpenVending] = useState(false);
-  const [sort, setSort] = useState("dateAsc");
+  const [sort, setSort] = useState("date-asc");
   const [initial, setInitial] = useState({
     id: "",
     location: "",
@@ -103,9 +104,22 @@ function OrderHistory() {
     instructions: "",
     status: "",
   });
-  const onChange = function (e) {
+
+  const onChange = useCallback((e) => {
     setSort(e);
-  };
+  }, []);
+
+  const renderOrderUnits = useMemo(() => {
+    return orderList.map((order) => (
+      <OrderUnit
+        order={order}
+        key={order.id}
+        setInisial={setInitial}
+        setOpenOrder={setOpenOrder}
+      />
+    ));
+  }, []);
+
   return (
     <>
       <div className={styles.orderHistory}>
@@ -117,23 +131,13 @@ function OrderHistory() {
             onChange={onChange}
             value={sort}
           >
-            <Option value="dateAsc">Date (Ascending)</Option>
-            <Option value="dateDesc">Date (Descending)</Option>
-
-            <Option value="statusOpen">Status (Open First)</Option>
-            <Option value="statusClosed">Status (Closed First)</Option>
+            <Option value="date-asc">Date (Ascending)</Option>
+            <Option value="date-desc">Date (Descending)</Option>
+            <Option value="status-open">Status (Open First)</Option>
+            <Option value="status-closed">Status (Closed First)</Option>
           </Select>
         </div>
-        {orderList.map((order) => {
-          return (
-            <OrderUnit
-              order={order}
-              key={order.id}
-              setInisial={setInitial}
-              setOpenOrder={setOpenOrder}
-            />
-          );
-        })}
+        {renderOrderUnits}
       </div>
       <AddOrderForm
         orderPop={openOrder}

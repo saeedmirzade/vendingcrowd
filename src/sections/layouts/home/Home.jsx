@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Navigation from "../../../components/navigation/Navigation";
 import HomSection from "../../../components/homeSection/HomSection";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ import {
 import AddOrderForm from "../../../components/addOrderForm/AddOrderForm";
 import AddVedingForm from "../../../components/addVendingForm/AddVedingForm";
 import ScrollToTop from "../../../components/scrollToTop/ScrollToTop";
+
 const featureData = [
   {
     icon: <TruckOutlined />,
@@ -77,6 +78,10 @@ function Home() {
   const [openOrder, setOpenOrder] = useState(false);
   const [addVending, setAddVending] = useState(false);
   const navigator = useNavigate();
+
+  const handleSetOpenOrder = useCallback(() => setOpenOrder(true), []);
+  const handleSetAddVending = useCallback(() => setAddVending(true), []);
+
   return (
     <>
       <Navigation />
@@ -87,7 +92,7 @@ function Home() {
         order={homeData[0].order}
         title={homeData[0].title}
       >
-        <button onClick={() => setOpenOrder(true)}>Add Order Now</button>
+        <button onClick={handleSetOpenOrder}>Add Order Now</button>
       </HomSection>
       <HomeFeature featureData={secondFeature} />
       <HomSection
@@ -97,7 +102,7 @@ function Home() {
         order={homeData[1].order}
         title={homeData[1].title}
       >
-        <button onClick={() => navigator("/dashboard")}>check Inventory</button>
+        <button onClick={() => navigator("/dashboard")}>Check Inventory</button>
       </HomSection>
       <HomeFeature featureData={featureData} />
       <HomSection
@@ -107,9 +112,7 @@ function Home() {
         order={homeData[2].order}
         title={homeData[2].title}
       >
-        <button onClick={() => setAddVending(true)}>
-          Add New Vending Machine
-        </button>
+        <button onClick={handleSetAddVending}>Add New Vending Machine</button>
       </HomSection>
       <AddOrderForm
         orderPop={openOrder}

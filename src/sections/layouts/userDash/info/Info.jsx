@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 import styles from "./info.module.scss";
 import { Table } from "antd";
@@ -46,6 +46,7 @@ const inventoryList = [
     warehouse3: "60",
   },
 ];
+
 const columns = [
   {
     title: "Item",
@@ -81,18 +82,25 @@ const columns = [
     key: "warehouse3",
   },
 ];
+
 function Info() {
   const [open, setOpen] = useState(false);
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
   return (
     <div className={styles.info}>
       <div className={styles.info__head}>
         <h2>Your inventory</h2>
-        <button onClick={() => setOpen(true)}>Add item +</button>
+        <button onClick={handleOpen}>Add item +</button>
       </div>
       <Table
         dataSource={inventoryList}
         columns={columns}
         pagination={{ pageSize: 8 }}
+        rowKey="key"
       />
       <AddItem open={open} setOpen={setOpen} />
     </div>

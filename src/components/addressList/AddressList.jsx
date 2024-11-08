@@ -1,5 +1,7 @@
+import { useCallback } from "react";
 import SignleAddress from "../singleAddress/SignleAddress";
 import styles from "./addressList.module.scss";
+
 const vendingMachineData = [
   {
     id: "1234",
@@ -20,7 +22,7 @@ const vendingMachineData = [
 ];
 
 function AddressList({ setData, setVendingOpen }) {
-  const handlenewAddress = function () {
+  const handlenewAddress = useCallback(() => {
     setData({
       id: "",
       img: "",
@@ -38,20 +40,19 @@ function AddressList({ setData, setVendingOpen }) {
       },
     });
     setVendingOpen(true);
-  };
+  }, [setData, setVendingOpen]);
+
   return (
     <div className={styles.addressList}>
       <h2>Vending Machines List</h2>
-      {vendingMachineData.map((item) => {
-        return (
-          <SignleAddress
-            address={item}
-            key={item.machineName}
-            setData={setData}
-            setVendingOpen={setVendingOpen}
-          />
-        );
-      })}
+      {vendingMachineData.map((item) => (
+        <SignleAddress
+          address={item}
+          key={item.id}
+          setData={setData}
+          setVendingOpen={setVendingOpen}
+        />
+      ))}
       <button className={styles.addressList__add} onClick={handlenewAddress}>
         +
       </button>

@@ -1,5 +1,5 @@
 import styles from "./addItem.module.scss";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Modal, Button, Input, Upload, Form } from "antd";
 import { UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 
@@ -12,29 +12,50 @@ function AddItem({ open, setOpen }) {
     ware2: 0,
     ware3: 0,
   });
-  const handleUploadChange = (file) => {
+
+  const handleUploadChange = useCallback((file) => {
     const previewUrl = URL.createObjectURL(file);
-    setData({ ...data, image: previewUrl });
+    setData((prevData) => ({ ...prevData, image: previewUrl }));
     return false;
-  };
+  }, []);
 
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
+  const handleInputChange = useCallback((field, value) => {
+    setData((prevData) => ({ ...prevData, [field]: value }));
+  }, []);
 
+  const handleSubmit = useCallback(
+    (values) => {
+      console.log("Form values:", values);
+      setOpen(false);
+      form.resetFields();
+      setData({
+        name: "",
+        image: null,
+        ware1: 0,
+        ware2: 0,
+        ware3: 0,
+      });
+    },
+    [form, setOpen]
+  );
+
+  const handleCancel = useCallback(() => {
     setOpen(false);
     form.resetFields();
-    setData({ ...data, image: null });
-  };
+    setData({
+      name: "",
+      image: null,
+      ware1: 0,
+      ware2: 0,
+      ware3: 0,
+    });
+  }, [form, setOpen]);
 
   return (
     <Modal
       title="Add New Product"
       open={open}
-      onCancel={() => {
-        setOpen(false);
-        form.resetFields();
-        setData({ ...data, image: null });
-      }}
+      onCancel={handleCancel}
       footer={null}
     >
       <Form
@@ -52,7 +73,7 @@ function AddItem({ open, setOpen }) {
           name="itemName"
           rules={[{ required: true, message: "Please input the item name!" }]}
         >
-          <Input onChange={(e) => setData({ ...data, name: e.target.value })} />
+          <Input onChange={(e) => handleInputChange("name", e.target.value)} />
         </Form.Item>
 
         <Form.Item label="Product Picture">
@@ -61,13 +82,12 @@ function AddItem({ open, setOpen }) {
             beforeUpload={handleUploadChange}
             showUploadList={false}
           >
-            {!data.image && (
+            {!data.image ? (
               <Button
                 className={styles.addItem__upload}
                 icon={<UploadOutlined />}
-              ></Button>
-            )}
-            {data.image && (
+              />
+            ) : (
               <div className={styles.addItem__previewContainer}>
                 <img
                   src={data.image}
@@ -82,9 +102,9 @@ function AddItem({ open, setOpen }) {
               <Button
                 type="link"
                 icon={<DeleteOutlined />}
-                onClick={() => setData({ ...data, image: null })}
+                onClick={() => handleInputChange("image", null)}
                 danger
-              ></Button>
+              />
             </div>
           )}
         </Form.Item>
@@ -94,22 +114,20 @@ function AddItem({ open, setOpen }) {
         <Form.Item label="Warehouse 1" name="warehouse1">
           <Input
             type="number"
-            onChange={(e) => setData({ ...data, ware1: e.target.value })}
+            onChange={(e) => handleInputChange("ware1", e.target.value)}
           />
         </Form.Item>
-        <Form.Item
-          label="Warehouse 2"
-          name="warehouse2"
-          onChange={(e) => setData({ ...data, ware2: e.target.value })}
-        >
-          <Input type="number" />
+        <Form.Item label="Warehouse 2" name="warehouse2">
+          <Input
+            type="number"
+            onChange={(e) => handleInputChange("ware2", e.target.value)}
+          />
         </Form.Item>
-        <Form.Item
-          label="Warehouse 3"
-          name="warehouse3"
-          onChange={(e) => setData({ ...data, ware2: e.target.value })}
-        >
-          <Input type="number" />
+        <Form.Item label="Warehouse 3" name="warehouse3">
+          <Input
+            type="number"
+            onChange={(e) => handleInputChange("ware3", e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item>

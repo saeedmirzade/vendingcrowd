@@ -1,5 +1,5 @@
 import styles from "./detailsForm.module.scss";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Form, Input, Select, Button, message } from "antd";
 import debounce from "lodash/debounce";
 
@@ -10,9 +10,12 @@ function DetailsForm({ states }) {
   const [initialValues, setInitialValues] = useState(form.getFieldsValue());
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
-  // Compare form values with initial values for changes
+  useEffect(() => {
+    form.setFieldsValue(initialValues);
+  }, [initialValues, form]);
+
   const checkChanges = useCallback(
-    (changedValues, allValues) => {
+    (allValues) => {
       const hasChanges = Object.keys(allValues).some(
         (key) => initialValues[key] !== allValues[key]
       );
@@ -21,9 +24,8 @@ function DetailsForm({ states }) {
     [initialValues]
   );
 
-  // Debounced handler to reduce frequent updates
-  const handleValuesChange = debounce((changedValues, allValues) => {
-    checkChanges(changedValues, allValues);
+  const handleValuesChange = debounce((_, allValues) => {
+    checkChanges(allValues);
   }, 300);
 
   const handleSave = () => {

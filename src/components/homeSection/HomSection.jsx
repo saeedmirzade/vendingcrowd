@@ -1,5 +1,15 @@
 import styles from "./homeSection.module.scss";
-function HomSection({ img, text, navigate, children, order, title, shadow }) {
+import { memo } from "react";
+
+const HomeSection = memo(function HomeSection({
+  img,
+  text,
+  navigate,
+  children,
+  order,
+  title,
+  shadow,
+}) {
   return (
     <div
       className={styles.homeSection}
@@ -15,6 +25,6 @@ function HomSection({ img, text, navigate, children, order, title, shadow }) {
       </div>
     </div>
   );
-}
+});
 
-export default HomSection;
+export default HomeSection;

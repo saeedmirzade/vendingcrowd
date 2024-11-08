@@ -1,19 +1,16 @@
 import styles from "./homeFeature.module.scss";
+import { memo } from "react";
 
-function HomeFeature({ featureData }) {
-  return (
-    <div className={styles.homeFeature}>
-      {featureData.map((item, i) => {
-        return (
-          <div className={styles.homeFeature__item} key={i}>
-            {item.icon}
-            <h2>{item.title}</h2>
-            <p>{item.text}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
+const HomeFeature = memo(({ featureData }) => (
+  <div className={styles.homeFeature}>
+    {featureData.map((item, i) => (
+      <div className={styles.homeFeature__item} key={i}>
+        {item.icon}
+        <h2>{item.title}</h2>
+        <p>{item.text}</p>
+      </div>
+    ))}
+  </div>
+));
+HomeFeature.displayName = "HomeFeature";
 export default HomeFeature;
