@@ -23,15 +23,15 @@
     }
   }
   &__text {
-    @media (max-width: 400px) {
-      order: 1;
-    }
     flex: 1;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     flex-direction: column;
     gap: 2rem;
+    @media (max-width: 400px) {
+      order: 1;
+    }
     p {
       font-size: 1.6rem;
       line-height: 3rem;
