@@ -2,7 +2,7 @@ import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import styles from "./singleAddress.module.scss";
 import { Button, Modal } from "antd";
 import { useState, useCallback } from "react";
-
+import PropTypes from "prop-types";
 function SingleAddress({ address, setData, setVendingOpen }) {
   const [deleter, setDeleter] = useState(false);
 
@@ -13,7 +13,7 @@ function SingleAddress({ address, setData, setVendingOpen }) {
   const handleEdit = useCallback(() => {
     setData(2342);
     setVendingOpen(true);
-  }, [address, setData, setVendingOpen]);
+  }, [setData, setVendingOpen]);
 
   return (
     <div className={styles.singleAddress}>
@@ -52,5 +52,17 @@ function SingleAddress({ address, setData, setVendingOpen }) {
     </div>
   );
 }
+SingleAddress.propTypes = {
+  address: PropTypes.shape({
+    img: PropTypes.string,
+    machineName: PropTypes.string,
+    state: PropTypes.string,
+    address: PropTypes.string,
+    postalCode: PropTypes.string,
+    warehouse: PropTypes.string,
+  }),
+  setData: PropTypes.func,
+  setVendingOpen: PropTypes.func,
+};
 
 export default SingleAddress;

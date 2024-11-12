@@ -1,6 +1,6 @@
 import styles from "./homeSection.module.scss";
 import { memo } from "react";
-
+import PropTypes from "prop-types";
 const HomeSection = memo(function HomeSection({
   img,
   text,
@@ -26,5 +26,14 @@ const HomeSection = memo(function HomeSection({
     </div>
   );
 });
+HomeSection.propTypes = {
+  img: PropTypes.string,
+  text: PropTypes.string,
+  navigate: PropTypes.string,
+  children: PropTypes.node,
+  order: PropTypes.number,
+  title: PropTypes.string,
+  shadow: PropTypes.string,
+};
 
 export default HomeSection;

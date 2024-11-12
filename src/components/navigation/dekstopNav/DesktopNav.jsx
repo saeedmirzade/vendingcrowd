@@ -1,9 +1,9 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./desktopNav.module.scss";
 import { useState } from "react";
 import LogOutPop from "../../logOutPop/LogOutPop";
 function DesktopNav() {
-  const [logOut, setLogout] = useState(false);
+  const [logOut, setLogOut] = useState(false);
   return (
     <div className={styles.desktopNav}>
       <NavLink to={"/home"} className={styles.desktopNav__logo}>
@@ -25,11 +25,11 @@ function DesktopNav() {
 
       <button
         className={styles.desktopNav__action}
-        onClick={() => setLogout(true)}
+        onClick={() => setLogOut(true)}
       >
         LogOut
       </button>
-      <LogOutPop setLogOut={setLogout} logOut={logOut} />
+      <LogOutPop setLogOut={setLogOut} logOut={logOut} />
     </div>
   );
 }

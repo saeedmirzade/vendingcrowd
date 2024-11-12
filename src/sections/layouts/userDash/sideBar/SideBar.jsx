@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./sidebar.module.scss";
 import { RightOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 function SideBar({ page }) {
   const navigate = useNavigate();
 
@@ -37,5 +38,8 @@ function SideBar({ page }) {
     </ul>
   );
 }
+SideBar.propTypes = {
+  page: PropTypes.string,
+};
 
 export default SideBar;

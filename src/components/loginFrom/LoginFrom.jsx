@@ -3,7 +3,7 @@ import styles from "./loginForm.module.scss";
 import { useEffect, useState, useCallback } from "react";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-
+import PropTypes from "prop-types";
 const strictEmailRegex =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
 const strictPasswordRegex = /^(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -145,5 +145,8 @@ const LoginFrom = ({ sign, setIsModalVisible }) => {
     </form>
   );
 };
-
+LoginFrom.propTypes = {
+  sign: PropTypes.bool,
+  setIsModalVisible: PropTypes.func,
+};
 export default LoginFrom;

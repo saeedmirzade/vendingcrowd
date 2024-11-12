@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import styles from "./loginPop.module.scss";
 import { useNavigate } from "react-router-dom";
-
+import PropTypes from "prop-types";
 const strictEmailRegex =
   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/;
 
@@ -31,7 +31,7 @@ const LoginPop = ({ show = true, handleOk, handleCancel }) => {
   const handleCancelBtn = useCallback(() => {
     resetForm();
     handleCancel();
-  }, [handleCancel]);
+  }, [handleCancel, resetForm]);
 
   const resetForm = useCallback(() => {
     setCode("");
@@ -132,6 +132,11 @@ const LoginPop = ({ show = true, handleOk, handleCancel }) => {
       </div>
     </div>
   );
+};
+LoginPop.propTypes = {
+  show: PropTypes.bool,
+  handleOk: PropTypes.func.isRequired,
+  handleCancel: PropTypes.func.isRequired,
 };
 
 export default LoginPop;

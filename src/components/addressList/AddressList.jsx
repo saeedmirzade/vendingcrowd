@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import SignleAddress from "../singleAddress/SignleAddress";
 import styles from "./addressList.module.scss";
-
+import PropTypes from "prop-types";
 const vendingMachineData = [
   {
     id: "1234",
@@ -44,5 +44,8 @@ function AddressList({ setData, setVendingOpen }) {
     </div>
   );
 }
-
+AddressList.propTypes = {
+  setData: PropTypes.func,
+  setVendingOpen: PropTypes.func,
+};
 export default AddressList;

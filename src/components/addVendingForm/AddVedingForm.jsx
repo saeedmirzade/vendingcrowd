@@ -7,7 +7,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import styles from "./addVendingForm.module.scss";
 import "leaflet/dist/leaflet.css";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
-
+import PropTypes from "prop-types";
 const states = [
   "Alabama",
   "Alaska",
@@ -383,5 +383,10 @@ function AddVendingForm({ vendingOpen, setVendingOpen, id }) {
     </Modal>
   );
 }
+AddVendingForm.propTypes = {
+  vendingOpen: PropTypes.bool,
+  setVendingOpen: PropTypes.func,
+  id: PropTypes.string,
+};
 
 export default AddVendingForm;

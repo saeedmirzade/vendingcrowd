@@ -10,6 +10,7 @@ import {
   Upload,
   message,
 } from "antd";
+import PropTypes from "prop-types";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./addOrderForm.module.scss";
 import { useNavigate } from "react-router-dom";
@@ -86,10 +87,7 @@ const defaultValues = {
 function AddOrderForm({ orderPop, setOrderPop, setAddVending, initial }) {
   const navigator = useNavigate();
   const form = useForm();
-  const initialValues = useMemo(
-    () => (initial ? initial : defaultValues),
-    [initial]
-  );
+  const initialValues = useMemo(() => initial ?? defaultValues, [initial]);
   const [workOrderType, setWorkOrderType] = useState(
     initialValues.workOrderType || ""
   );
@@ -309,5 +307,11 @@ function AddOrderForm({ orderPop, setOrderPop, setAddVending, initial }) {
     </Modal>
   );
 }
+AddOrderForm.propTypes = {
+  orderPop: PropTypes.bool,
+  setOrderPop: PropTypes.func,
+  setAddVending: PropTypes.func,
+  initial: PropTypes.object,
+};
 
 export default AddOrderForm;

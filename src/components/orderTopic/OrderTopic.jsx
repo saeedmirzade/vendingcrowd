@@ -1,4 +1,5 @@
 import styles from "./orderTopic.module.scss";
+import PropTypes from "prop-types";
 function OrderTopic({ item }) {
   return (
     <div className={styles.orderTopic}>
@@ -25,5 +26,13 @@ function OrderTopic({ item }) {
     </div>
   );
 }
+OrderTopic.propTypes = {
+  item: PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    workDate: PropTypes.instanceOf(Date).isRequired,
+    finishedImg: PropTypes.string,
+  }).isRequired,
+};
 
 export default OrderTopic;

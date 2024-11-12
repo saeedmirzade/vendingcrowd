@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./orderUnit.module.scss";
+import PropTypes from "prop-types";
 function OrderUnit({ order, setInisial, setOpenOrder }) {
   const navigate = useNavigate();
   const handleDuplicate = function (e) {
@@ -54,5 +55,17 @@ function OrderUnit({ order, setInisial, setOpenOrder }) {
     </div>
   );
 }
+OrderUnit.propTypes = {
+  order: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    machine: PropTypes.string.isRequired,
+    workDate: PropTypes.instanceOf(Date).isRequired,
+    status: PropTypes.string.isRequired,
+    workOrderType: PropTypes.string.isRequired,
+  }).isRequired,
+  setInisial: PropTypes.func.isRequired,
+  setOpenOrder: PropTypes.func.isRequired,
+};
 
 export default OrderUnit;

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./logOutPop.module.scss";
 import { Modal } from "antd";
+import PropTypes from "prop-types";
 function LogOutPop({ setLogOut, logOut }) {
   const navigate = useNavigate();
   return (
@@ -15,5 +16,9 @@ function LogOutPop({ setLogOut, logOut }) {
     </Modal>
   );
 }
+LogOutPop.propTypes = {
+  setLogOut: PropTypes.func.isRequired,
+  logOut: PropTypes.bool.isRequired,
+};
 
 export default LogOutPop;

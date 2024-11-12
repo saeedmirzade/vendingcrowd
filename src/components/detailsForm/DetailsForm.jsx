@@ -1,7 +1,7 @@
 import styles from "./detailsForm.module.scss";
 import { useState, useEffect } from "react";
 import { Form, Input, Select, Button, message } from "antd";
-
+import PropTypes from "prop-types";
 const { Option } = Select;
 
 function DetailsForm({ states }) {
@@ -164,5 +164,7 @@ function DetailsForm({ states }) {
     </>
   );
 }
-
+DetailsForm.propTypes = {
+  states: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 export default DetailsForm;

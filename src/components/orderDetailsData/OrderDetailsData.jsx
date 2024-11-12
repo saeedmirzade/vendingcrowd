@@ -1,6 +1,6 @@
 import { Button } from "antd";
 import styles from "./orderDetailsData.module.scss";
-
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { RightCircleFilled } from "@ant-design/icons";
 function OrderDetailsData({ item }) {
@@ -67,5 +67,20 @@ function OrderDetailsData({ item }) {
     </div>
   );
 }
+OrderDetailsData.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    machine: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    taskTime: PropTypes.string.isRequired,
+    startTime: PropTypes.string.isRequired,
+    endTime: PropTypes.string.isRequired,
+    workOrderType: PropTypes.string.isRequired,
+    collectCash: PropTypes.string.isRequired,
+    instructions: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    products: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+};
 
 export default OrderDetailsData;
