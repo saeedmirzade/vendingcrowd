@@ -218,7 +218,7 @@ function AddOrderForm({ orderPop, setOrderPop, setAddVending, initial }) {
             </Select>
           </Form.Item>
 
-          {workOrderType.includes("resock") && (
+          {workOrderType.includes("restock") && (
             <Form.Item
               label="Select Products to Restock"
               name="products"
