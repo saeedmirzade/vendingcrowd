@@ -27,12 +27,6 @@ const LoginPop = ({ show = true, handleOk, handleCancel }) => {
     setCodeCheck(false);
     setCode(e.target.value);
   }, []);
-
-  const handleCancelBtn = useCallback(() => {
-    resetForm();
-    handleCancel();
-  }, [handleCancel, resetForm]);
-
   const resetForm = useCallback(() => {
     setCode("");
     setUserName("");
@@ -40,6 +34,11 @@ const LoginPop = ({ show = true, handleOk, handleCancel }) => {
     setEmailCode(false);
     setTimer(60);
   }, []);
+
+  const handleCancelBtn = useCallback(() => {
+    resetForm();
+    handleCancel();
+  }, [handleCancel, resetForm]);
 
   const handleOkCode = useCallback(() => {
     if (!emailCode) {
