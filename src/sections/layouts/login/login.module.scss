@@ -1,6 +1,6 @@
 @use "../../../styles/colors" as colors;
 .login {
-  width: calc(100% - 10%);
+  width: 100%;
   height: 100svh;
   background-image: url("/images/background/vending.jpg");
   background-position: center;
@@ -9,9 +9,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5%;
+  gap: 5%;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    gap: 4rem;
+  }
   &__form {
-    flex: 0.5;
+    flex: 0.75;
     z-index: 100;
     display: flex;
     align-items: center;
@@ -20,6 +24,16 @@
     background-color: white;
     border-radius: 10px;
     padding: 2rem 0;
+    margin-right: 5%;
+    @media (max-width: 1000px) {
+      flex: 1;
+    }
+    @media (max-width: 800px) {
+      width: 70%;
+      margin: 0%;
+      margin-bottom: auto;
+      flex: 0;
+    }
     p {
       font-size: 1.5rem;
     }
@@ -37,7 +51,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 50%;
+        width: 100%;
         border-radius: 0.5rem;
         height: 40px !important;
         overflow: hidden;
@@ -58,15 +72,6 @@
 
           &:hover {
             background-color: #357ae8; // Darker shade on hover
-          }
-        }
-
-        &.facebook__button {
-          background-color: #3b5998; // Facebook brand color
-          color: white;
-
-          &:hover {
-            background-color: #2d4373; // Darker shade on hover
           }
         }
       }
@@ -106,5 +111,11 @@
 
   &__data {
     flex: 1;
+    height: 100%;
+    @media (max-width: 800px) {
+      height: unset;
+      flex: 0;
+      width: 100%;
+    }
   }
 }

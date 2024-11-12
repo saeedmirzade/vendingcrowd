@@ -1,24 +1,47 @@
 @use "../../styles/colors" as colors;
 .loginData {
   overflow: hidden;
-  height: 100%;
-  width: 60%;
-  position: absolute;
-  top: 0;
-  left: 15%;
-  transform: translateX(-30%);
-  background-color: rgba(0, 0, 0, 0.541);
 
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.541);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @media (max-width: 800px) {
+    flex-direction: row;
+    height: unset;
+  }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    height: unset;
+    padding-top: 10%;
+  }
   img {
     width: 60%;
     object-fit: contain;
-    margin: 0 20%;
+    @media (max-width: 1200px) {
+      width: 80%;
+    }
+    @media (max-width: 900px) {
+      width: 100%;
+    }
+    @media (max-width: 800px) {
+      width: 40%;
+    }
+    @media (max-width: 400px) {
+      width: 60%;
+    }
   }
   h1 {
     color: colors.$color_white;
     text-align: center;
     width: 100%;
-    margin-top: 8rem;
-    margin-bottom: 2rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    @media (max-width: 1200px) {
+      font-size: 3.5rem;
+    }
   }
 }

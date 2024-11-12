@@ -54,14 +54,6 @@ function Login() {
                   }}
                 />
               </div>
-              <div className={styles.login__form__ezlogin__facebook__button}>
-                <FacebookLogin
-                  appId="YOUR_APP_ID"
-                  autoLoad={false}
-                  fields="name,email,picture"
-                  callback={responseFacebook}
-                />
-              </div>
             </div>
           </>
         )}
