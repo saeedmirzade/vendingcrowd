@@ -1,9 +1,10 @@
-import { useParams, useMemo } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styles from "./orderDetail.module.scss";
 import Navigation from "../../../components/navigation/Navigation";
 import Footer from "../../../components/footer/Footer";
 import OrderTopic from "../../../components/orderTopic/OrderTopic";
 import OrderDetailsData from "../../../components/orderDetailsData/ORderDetailsData";
+import { useMemo } from "react";
 
 const order = {
   id: 12345,
@@ -25,14 +26,14 @@ const order = {
 
 function OrderDetail() {
   const { id } = useParams();
-  const orderData = useMemo(() => order, [id]);
+  const orderData = useMemo(() => order, []);
 
   return (
     <>
       <Navigation />
       <div className={styles.orderDetail}>
-        <OrderTopic item={orderData} />
-        <OrderDetailsData item={orderData} />
+        <OrderTopic item={order} />
+        <OrderDetailsData item={order} />
       </div>
       <Footer />
     </>

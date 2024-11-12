@@ -119,22 +119,7 @@ function Home() {
         setOrderPop={setOpenOrder}
         setAddVending={setAddVending}
       />
-      <AddVedingForm
-        vendingOpen={addVending}
-        setVendingOpen={setAddVending}
-        inisial={{
-          warehouse: "",
-          address: "",
-          machineName: "",
-          machineColor: "",
-          state: null,
-          postalCode: "",
-          additionalNote: "",
-          addressNote: "",
-          id: "",
-          img: "",
-        }}
-      />
+      <AddVedingForm vendingOpen={addVending} setVendingOpen={setAddVending} />
       <ScrollToTop />
       <Footer />
     </>

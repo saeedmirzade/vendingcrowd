@@ -23,22 +23,7 @@ const vendingMachineData = [
 
 function AddressList({ setData, setVendingOpen }) {
   const handlenewAddress = useCallback(() => {
-    setData({
-      id: "",
-      img: "",
-      warehouse: "",
-      machineName: "",
-      machineColor: "",
-      state: "",
-      address: "",
-      postalCode: "",
-      additionalNote: "",
-      addressNote: "",
-      locationCoordinates: {
-        lat: 0,
-        lng: 0,
-      },
-    });
+    setData("");
     setVendingOpen(true);
   }, [setData, setVendingOpen]);
 

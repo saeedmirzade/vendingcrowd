@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import { Form, Input, Select, ColorPicker, Modal, Upload, Button } from "antd";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
@@ -122,58 +122,96 @@ const defaultIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
-  const [formValues, setFormValues] = useState(inisial);
+const inisial = {
+  id: "1234",
+  img: "/images/address/vending.jpg",
+  warehouse: "Warehouse1",
+  machineName: "Healthy Snacks Machine",
+  machineColor: "Green",
+  state: "California",
+  address: "456 Wellness Blvd",
+  postalCode: "90210",
+  additionalNote: "Restock weekly with organic snacks.",
+  addressNote: "Located near the main entrance.",
+  locationCoordinates: {
+    lat: 34.0522,
+    lng: -118.2437,
+  },
+};
+const defaultValue = {
+  id: "",
+  img: "",
+  warehouse: "",
+  machineName: "",
+  machineColor: "",
+  state: "",
+  address: "",
+  postalCode: "",
+  additionalNote: "",
+  addressNote: "",
+  locationCoordinates: {
+    lat: "",
+    lng: "",
+  },
+};
+function AddVendingForm({ vendingOpen, setVendingOpen, id }) {
+  const formValues = useMemo(() => (id ? inisial : defaultValue), [id]);
+  const [mapkey, setMapkey] = useState(0);
   const [mapCenter, setMapCenter] = useState(
-    stateCoordinates[states.indexOf(formValues.state)] || [37.0902, -95.7129]
+    id
+      ? stateCoordinates[states.indexOf(formValues.state)]
+      : [37.0902, -95.7129]
   );
+
   const [markerPosition, setMarkerPosition] = useState(null);
-  const [mapKey, setMapKey] = useState(0);
-  const [fileList, setFileList] = useState(
-    formValues.img
-      ? [
-          {
-            uid: "-1",
-            name: "vending machine",
-            status: "done",
-            url: formValues.img,
-          },
-        ]
-      : []
-  );
+
+  const [fileList, setFileList] = useState([]);
+
   const [form] = Form.useForm();
 
   const handleChange = ({ fileList }) => setFileList(fileList);
 
-  const handleFieldChange = useCallback((name, value) => {
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  }, []);
   const handleStateChange = useCallback(
     (value) => {
-      handleFieldChange("state", value);
-      handleFieldChange("warehouse", "Loading...");
-      setTimeout(() => handleFieldChange("warehouse", "Warehouse 1"), 1000);
+      form.setFieldsValue({ warehouse: "Loading..." });
+      setTimeout(() => {
+        form.setFieldsValue({ warehouse: "Warehouse 1" });
+      }, 1000);
       const coorts = value.charAt(0).toUpperCase() + value.slice(1);
       const newCenter = stateCoordinates[states.indexOf(coorts)];
       setMapCenter(newCenter);
+      setMapkey((perv) => perv + 1);
     },
-    [handleFieldChange]
+    [form]
   );
-  useEffect(() => {
-    setFormValues(inisial);
-    form.setFieldsValue(inisial);
-  }, [inisial, form]);
 
   useEffect(() => {
-    if (formValues.state) {
-      setMapKey((prevKey) => prevKey + 1);
+    if (id) {
+      setFileList([
+        {
+          uid: "-1",
+          name: "vending machine",
+          status: "done",
+          url: inisial.img,
+        },
+      ]);
+      setMapCenter(stateCoordinates[states.indexOf(formValues.state)]);
+    } else {
+      setFileList([]);
     }
+    setMapkey((perv) => perv + 1);
+    setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 400);
+
+    form.setFieldsValue(formValues);
+  }, [form, formValues.state, id, formValues]);
+  useEffect(() => {
     if (formValues.locationCoordinates) {
       const { lat, lng } = formValues.locationCoordinates;
       setMarkerPosition([lat, lng]);
-      setMapKey((prevKey) => prevKey + 1);
     }
-  }, [formValues.state, formValues.locationCoordinates]);
+  }, [formValues.locationCoordinates]);
 
   const fetchAddress = useCallback(
     async (lat, lng) => {
@@ -184,16 +222,15 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             params: { lat, lon: lng, format: "json" },
           }
         );
-        handleFieldChange(
-          "address",
-          response.data.display_name || "Address not found"
-        );
+        form.setFieldsValue({
+          address: response.data.display_name || "Address not found",
+        });
       } catch (error) {
         console.error("Error fetching address:", error);
-        handleFieldChange("address", "Error fetching address");
+        form.setFieldsValue({ address: "Error fetching address" });
       }
     },
-    [handleFieldChange]
+    [form]
   );
 
   const LocationMarker = () => {
@@ -201,7 +238,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
       click: (event) => {
         const { lat, lng } = event.latlng;
         setMarkerPosition([lat, lng]);
-        fetchAddress(lat, lng);
+        if (!id) fetchAddress(lat, lng);
       },
     });
     return markerPosition ? (
@@ -210,44 +247,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
   };
 
   const onClose = () => {
-    form.resetFields();
-    setMapCenter([37.0902, -95.7129]);
-    setMapKey((prevKey) => prevKey + 1);
     setVendingOpen(false);
-    setFormValues({
-      warehouse: "",
-      address: "",
-      machineName: "",
-      machineColor: "",
-      state: null,
-      postalCode: "",
-      additionalNote: "",
-      addressNote: "",
-      locationCoordinates: {
-        lat: "",
-        lng: "",
-      },
-      id: "",
-      img: "",
-    });
-    if (setData)
-      setData({
-        warehouse: "",
-        address: "",
-        machineName: "",
-        machineColor: "",
-        state: null,
-        postalCode: "",
-        additionalNote: "",
-        addressNote: "",
-        locationCoordinates: {
-          lat: "",
-          lng: "",
-        },
-        id: "",
-        img: "",
-      });
-    setMarkerPosition(null);
   };
 
   const handleSubmit = () => {
@@ -269,7 +269,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
         form={form}
         className={styles.addVendingForm}
         onFinish={handleSubmit}
-        initialValues={inisial}
+        initialValues={formValues}
       >
         <div className={styles.addVendingForm__row}>
           <Form.Item
@@ -278,11 +278,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             rules={[{ required: true, message: "Machine Name is required" }]}
             name="machineName"
           >
-            <Input
-              value={formValues.machineName}
-              onChange={(e) => handleFieldChange("machineName", e.target.value)}
-              placeholder="Displayed in Order Page"
-            />
+            <Input placeholder="Displayed in Order Page" />
           </Form.Item>
 
           <Form.Item
@@ -290,10 +286,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             style={{ flex: "0.3" }}
             name="machineColor"
           >
-            <ColorPicker
-              value={formValues.machineColor}
-              onChange={(color) => handleFieldChange("machineColor", color)}
-            />
+            <ColorPicker />
           </Form.Item>
         </div>
         <div className={styles.addVendingForm__row}>
@@ -305,12 +298,11 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
           >
             <Select
               placeholder="Select State"
-              value={formValues.state}
+              onSelect={handleStateChange}
               options={states.map((state) => ({
                 label: state,
                 value: state.toLowerCase(),
               }))}
-              onChange={handleStateChange}
             />
           </Form.Item>
           <Form.Item
@@ -318,20 +310,12 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             style={{ flex: "0.3" }}
             name={"postalCode"}
           >
-            <Input
-              value={formValues.postalCode}
-              onChange={(e) => handleFieldChange("postalCode", e.target.value)}
-              placeholder="Enter Postal Code"
-            />
+            <Input placeholder="Enter Postal Code" />
           </Form.Item>
         </div>
         <div className={styles.addVendingForm__row}>
-          <Form.Item
-            label="Warehouse"
-            style={{ flex: "0.3" }}
-            name={"warehouse"}
-          >
-            <Input value={formValues.warehouse} disabled />
+          <Form.Item label="Warehouse" style={{ flex: "0.3" }} name="warehouse">
+            <Input disabled />
           </Form.Item>
           <Form.Item
             label="Upload Image of Machine"
@@ -352,12 +336,10 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
         <Form.Item
           label="Address"
           style={{ flex: "1" }}
-          name={inisial.id ? "address" : undefined}
+          name="address"
           rules={[{ required: true, message: "Address is required" }]}
         >
           <Input.TextArea
-            value={formValues.address}
-            onChange={(e) => handleFieldChange("address", e.target.value)}
             placeholder="Select location on map to auto-fill this field"
             rows={2}
           />
@@ -368,14 +350,7 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             style={{ flex: "1" }}
             name="additionalNote"
           >
-            <Input.TextArea
-              value={formValues.additionalNote}
-              onChange={(e) =>
-                handleFieldChange("additionalNote", e.target.value)
-              }
-              placeholder="Enter notes"
-              rows={3}
-            />
+            <Input.TextArea placeholder="Enter notes" rows={3} />
           </Form.Item>
           <Form.Item
             label="Address Note (For Driver)"
@@ -383,8 +358,6 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
             name="addressNote"
           >
             <Input.TextArea
-              value={formValues.addressNote}
-              onChange={(e) => handleFieldChange("addressNote", e.target.value)}
               placeholder="Enter driver-specific instructions"
               rows={3}
             />
@@ -392,13 +365,17 @@ function AddVendingForm({ vendingOpen, setVendingOpen, inisial, setData }) {
         </div>
         <Form.Item label="Select Location on Map">
           <MapContainer
-            key={mapKey}
+            key={mapkey}
             center={mapCenter}
-            zoom={6}
-            scrollWheelZoom={false}
-            style={{ height: "300px", width: "100%" }}
+            zoom={5}
+            scrollWheelZoom={true}
+            style={{
+              height: "400px",
+              width: "100%",
+            }}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
             <LocationMarker />
           </MapContainer>
         </Form.Item>

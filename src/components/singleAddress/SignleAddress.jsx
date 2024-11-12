@@ -11,7 +11,7 @@ function SingleAddress({ address, setData, setVendingOpen }) {
   }, []);
 
   const handleEdit = useCallback(() => {
-    setData(address);
+    setData(2342);
     setVendingOpen(true);
   }, [address, setData, setVendingOpen]);
 

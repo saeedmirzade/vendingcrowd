@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   Modal,
   Form,
@@ -13,7 +13,8 @@ import {
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./addOrderForm.module.scss";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
+
+import { useForm } from "antd/es/form/Form";
 const states = [
   "Alabama",
   "Alaska",
@@ -82,22 +83,18 @@ const defaultValues = {
   instructions: "",
 };
 
-function AddOrderForm({
-  orderPop,
-  setOrderPop,
-  setAddVending,
-  initial,
-  setInitial,
-}) {
+function AddOrderForm({ orderPop, setOrderPop, setAddVending, initial }) {
   const navigator = useNavigate();
-  const [form] = Form.useForm();
-  const [formValues, setFormValues] = useState(defaultValues);
-
+  const form = useForm();
+  const initialValues = useMemo(
+    () => (initial ? initial : defaultValues),
+    [initial]
+  );
+  const [workOrderType, setWorkOrderType] = useState(
+    initialValues.workOrderType || ""
+  );
   const [fileList, setFileList] = useState([]);
-  const [showRestock, setShowRestock] = useState(false);
   useEffect(() => {
-    setFormValues(initial || defaultValues);
-    form.setFieldsValue(initial || defaultValues);
     if (initial && initial.id) {
       setFileList([
         {
@@ -107,42 +104,29 @@ function AddOrderForm({
           url: initial.image,
         },
       ]);
-      setShowRestock(initial.workOrderType.includes("Restock"));
     }
-  }, [initial, form]);
-  const handleFieldChange = useCallback((name, value) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  }, []);
+  }, [initial]);
 
   const handleFileListChange = useCallback(
     ({ fileList }) => setFileList(fileList),
     []
   );
 
-  const handleWorkOrderTypeChange = useCallback(
-    (value) => {
-      handleFieldChange("workOrderType", value);
-      setShowRestock(value.includes("restock"));
-    },
-    [handleFieldChange]
-  );
-
   const handleCancel = useCallback(() => {
-    form.resetFields();
     setOrderPop(false);
-    if (initial) setInitial(defaultValues);
-    setFormValues(defaultValues);
-  }, [form, setOrderPop, initial, setInitial]);
+  }, [setOrderPop]);
 
   const handleSubmit = useCallback(() => {
     message.success("Order Has been Sent Successfully");
     handleCancel();
     navigator("/dashboard/history");
   }, [navigator, handleCancel]);
-
+  const renderOptions = (options) =>
+    options.map((option) => (
+      <Option key={option} value={option.toLowerCase()}>
+        {option}
+      </Option>
+    ));
   return (
     <Modal
       title="Add New Order"
@@ -154,10 +138,10 @@ function AddOrderForm({
       style={{ top: "20px" }}
     >
       <Form
-        form={form}
         onFinish={handleSubmit}
         layout="vertical"
         className={styles.addOrderForm}
+        initialValues={initialValues}
       >
         <div className={styles.addOrderForm__row}>
           <Form.Item
@@ -166,15 +150,8 @@ function AddOrderForm({
             name="location"
             rules={[{ required: true }]}
           >
-            <Select
-              placeholder="Select a location"
-              onChange={(value) => handleFieldChange("location", value)}
-            >
-              {states.map((state) => (
-                <Option key={state} value={state.toLowerCase()}>
-                  {state}
-                </Option>
-              ))}
+            <Select placeholder="Select a location">
+              {renderOptions(states)}
             </Select>
           </Form.Item>
 
@@ -186,7 +163,6 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select a machine"
-              onChange={(value) => handleFieldChange("machine", value)}
               dropdownRender={(menu) => (
                 <>
                   {menu}
@@ -231,7 +207,7 @@ function AddOrderForm({
           >
             <Select
               placeholder="Select work order type"
-              onChange={handleWorkOrderTypeChange}
+              onSelect={(e) => setWorkOrderType(e.target.value)}
             >
               <Option value="restock">Restock</Option>
               <Option value="maintenance">Maintenance</Option>
@@ -244,17 +220,13 @@ function AddOrderForm({
             </Select>
           </Form.Item>
 
-          {showRestock && (
+          {workOrderType.includes("resock") && (
             <Form.Item
               label="Select Products to Restock"
               name="products"
               style={{ flex: "1" }}
             >
-              <Select
-                mode="multiple"
-                placeholder="Select products"
-                onChange={(value) => handleFieldChange("products", value)}
-              >
+              <Select mode="multiple" placeholder="Select products">
                 {["Product A", "Product B", "Product C"].map((product) => (
                   <Option key={product} value={product.toLowerCase()}>
                     {product}
@@ -271,10 +243,7 @@ function AddOrderForm({
             name="collectCash"
             rules={[{ required: true }]}
           >
-            <Select
-              placeholder="Yes or No"
-              onChange={(value) => handleFieldChange("collectCash", value)}
-            >
+            <Select placeholder="Yes or No">
               <Option value="yes">Yes</Option>
               <Option value="no">No</Option>
             </Select>
@@ -285,10 +254,7 @@ function AddOrderForm({
             name="taskTime"
             rules={[{ required: true }]}
           >
-            <Select
-              placeholder="Select task duration"
-              onChange={(value) => handleFieldChange("taskTime", value)}
-            >
+            <Select placeholder="Select task duration">
               {Array.from({ length: 16 }, (_, i) => (
                 <Option key={i} value={`${(i / 2 + 1).toFixed(1)} hours`}>
                   {(i / 2 + 1).toFixed(1)} hours
@@ -302,15 +268,7 @@ function AddOrderForm({
           name="workDate"
           rules={[{ required: true }]}
         >
-          <DatePicker
-            value={formValues.workDate ? moment(formValues.workDate) : null}
-            onChange={(date) =>
-              setFormValues({
-                ...formValues,
-                workDate: date ? date.toDate() : null,
-              })
-            }
-          />
+          <DatePicker />
         </Form.Item>
 
         <div className={styles.addOrderForm__row}>
@@ -319,21 +277,7 @@ function AddOrderForm({
             rules={[{ required: true }]}
             style={{ display: "inline-block", width: "48%" }}
           >
-            <TimePicker
-              value={
-                formValues.startTime
-                  ? moment(formValues.startTime, "HH:mm")
-                  : null
-              }
-              onChange={(time) =>
-                handleFieldChange(
-                  "startTime",
-                  time ? moment(time).format("HH:mm") : null
-                )
-              }
-              placeholder="Start Time"
-              format="HH:mm"
-            />
+            <TimePicker placeholder="Start Time" format="HH:mm" />
           </Form.Item>
           <span
             style={{
@@ -349,26 +293,12 @@ function AddOrderForm({
             rules={[{ required: true }]}
             style={{ display: "inline-block", width: "48%" }}
           >
-            <TimePicker
-              value={
-                formValues.endTime ? moment(formValues.endTime, "HH:mm") : null
-              }
-              onChange={(time) =>
-                handleFieldChange("endTime", time ? moment(time) : null)
-              }
-              placeholder="End Time"
-              format="HH:mm"
-            />
+            <TimePicker placeholder="End Time" format="HH:mm" />
           </Form.Item>
         </div>
 
         <Form.Item label="Special Instructions" name="instructions">
-          <Input.TextArea
-            rows={3}
-            value={formValues.instructions}
-            onChange={(e) => handleFieldChange("instructions", e.target.value)}
-            placeholder="Any additional instructions"
-          />
+          <Input.TextArea rows={3} placeholder="Any additional instructions" />
         </Form.Item>
         <Form.Item label="" name="OrderPrice">
           <p>

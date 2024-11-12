@@ -1,32 +1,21 @@
 import styles from "./detailsForm.module.scss";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Form, Input, Select, Button, message } from "antd";
-import debounce from "lodash/debounce";
 
 const { Option } = Select;
 
 function DetailsForm({ states }) {
   const [form] = Form.useForm();
-  const [initialValues, setInitialValues] = useState(form.getFieldsValue());
+  const [initialValues, setInitialValues] = useState({});
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
   useEffect(() => {
     form.setFieldsValue(initialValues);
   }, [initialValues, form]);
 
-  const checkChanges = useCallback(
-    (allValues) => {
-      const hasChanges = Object.keys(allValues).some(
-        (key) => initialValues[key] !== allValues[key]
-      );
-      setIsSaveDisabled(!hasChanges);
-    },
-    [initialValues]
-  );
-
-  const handleValuesChange = debounce((_, allValues) => {
-    checkChanges(allValues);
-  }, 300);
+  const handleValuesChange = function () {
+    setIsSaveDisabled(!isSaveDisabled);
+  };
 
   const handleSave = () => {
     message.success("Changes saved");

@@ -63,37 +63,16 @@ const states = [
 
 function Details() {
   const [addMachine, setAddMachine] = useState(false);
-  const [data, setData] = useState({
-    warehouse: "",
-    address: "",
-    machineName: "",
-    machineColor: "",
-    state: null,
-    postalCode: "",
-    additionalNote: "",
-    addressNote: "",
-    locationCoordinates: { lat: "", lng: "" },
-    id: "",
-    img: "",
-  });
-
-  const handleDataChange = useCallback((newData) => {
-    setData((prevData) => ({ ...prevData, ...newData }));
-  }, []);
-
+  const [data, setData] = useState("");
   return (
     <div className={styles.details}>
       <DetailsForm states={states} />
       <Suspense fallback={<Loader />}>
-        <AddressList
-          setData={handleDataChange}
-          setVendingOpen={setAddMachine}
-        />
+        <AddressList setVendingOpen={setAddMachine} setData={setData} />
         <AddVendingForm
-          inisial={data}
           vendingOpen={addMachine}
           setVendingOpen={setAddMachine}
-          setData={handleDataChange}
+          id={data}
         />
       </Suspense>
     </div>
