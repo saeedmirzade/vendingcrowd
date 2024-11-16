@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import styles from "./orderDetail.module.scss";
-import Navigation from "../../../components/navigation/Navigation";
 import Footer from "../../../components/footer/Footer";
 import OrderTopic from "../../../components/orderTopic/OrderTopic";
 import OrderDetailsData from "../../../components/orderDetailsData/ORderDetailsData";
@@ -30,7 +29,6 @@ function OrderDetail() {
 
   return (
     <>
-      <Navigation />
       <div className={styles.orderDetail}>
         <OrderTopic item={order} />
         <OrderDetailsData item={order} />

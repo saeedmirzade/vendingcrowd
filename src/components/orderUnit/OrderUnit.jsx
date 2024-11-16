@@ -1,13 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./orderUnit.module.scss";
 import PropTypes from "prop-types";
-function OrderUnit({ order, setInisial, setOpenOrder }) {
+function OrderUnit({ order }) {
   const navigate = useNavigate();
-  const handleDuplicate = function (e) {
-    e.stopPropagation();
-    setInisial(order);
-    setOpenOrder(true);
-  };
 
   return (
     <div className={styles.orderUnit}>
@@ -43,7 +38,7 @@ function OrderUnit({ order, setInisial, setOpenOrder }) {
       </div>
       <div className={styles.orderUnit__action}>
         <button
-          onClick={handleDuplicate}
+          onClick={() => navigate(`/add-new-order/${order.id}`)}
           className={styles.orderUnit__action__down}
         >
           Duplicate Order
@@ -64,8 +59,6 @@ OrderUnit.propTypes = {
     status: PropTypes.string.isRequired,
     workOrderType: PropTypes.string.isRequired,
   }).isRequired,
-  setInisial: PropTypes.func.isRequired,
-  setOpenOrder: PropTypes.func.isRequired,
 };
 
 export default OrderUnit;

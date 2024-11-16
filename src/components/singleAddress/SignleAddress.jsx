@@ -3,7 +3,9 @@ import styles from "./singleAddress.module.scss";
 import { Button, Modal } from "antd";
 import { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-function SingleAddress({ address, setData, setVendingOpen }) {
+import { useNavigate } from "react-router-dom";
+function SingleAddress({ address }) {
+  const navigate = useNavigate();
   const [deleter, setDeleter] = useState(false);
 
   const handleDelete = useCallback(() => {
@@ -11,9 +13,8 @@ function SingleAddress({ address, setData, setVendingOpen }) {
   }, []);
 
   const handleEdit = useCallback(() => {
-    setData(2342);
-    setVendingOpen(true);
-  }, [setData, setVendingOpen]);
+    navigate(`/add-new-vending/${address.id}`);
+  }, []);
 
   return (
     <div className={styles.singleAddress}>
@@ -54,6 +55,7 @@ function SingleAddress({ address, setData, setVendingOpen }) {
 }
 SingleAddress.propTypes = {
   address: PropTypes.shape({
+    id: PropTypes.number,
     img: PropTypes.string,
     machineName: PropTypes.string,
     state: PropTypes.string,
@@ -61,8 +63,6 @@ SingleAddress.propTypes = {
     postalCode: PropTypes.string,
     warehouse: PropTypes.string,
   }),
-  setData: PropTypes.func,
-  setVendingOpen: PropTypes.func,
 };
 
 export default SingleAddress;

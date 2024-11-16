@@ -1,7 +1,7 @@
-import { useCallback } from "react";
 import SignleAddress from "../singleAddress/SignleAddress";
 import styles from "./addressList.module.scss";
-import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
 const vendingMachineData = [
   {
     id: "1234",
@@ -21,31 +21,22 @@ const vendingMachineData = [
   },
 ];
 
-function AddressList({ setData, setVendingOpen }) {
-  const handlenewAddress = useCallback(() => {
-    setData("");
-    setVendingOpen(true);
-  }, [setData, setVendingOpen]);
-
+function AddressList() {
+  const navigate = useNavigate();
   return (
     <div className={styles.addressList}>
       <h2>Vending Machines List</h2>
       {vendingMachineData.map((item) => (
-        <SignleAddress
-          address={item}
-          key={item.id}
-          setData={setData}
-          setVendingOpen={setVendingOpen}
-        />
+        <SignleAddress address={item} key={item.id} />
       ))}
-      <button className={styles.addressList__add} onClick={handlenewAddress}>
-        +
+      <button
+        className={styles.addressList__add}
+        onClick={() => navigate("/add-new-vending")}
+      >
+        Add New Address +
       </button>
     </div>
   );
 }
-AddressList.propTypes = {
-  setData: PropTypes.func,
-  setVendingOpen: PropTypes.func,
-};
+
 export default AddressList;

@@ -1,4 +1,3 @@
-import Navigation from "../../../components/navigation/Navigation";
 import { useParams } from "react-router-dom";
 import styles from "./userDash.module.scss";
 import SideBar from "./sideBar/SideBar";
@@ -19,7 +18,6 @@ function UserDash() {
 
   return (
     <>
-      <Navigation />
       <Suspense fallback={<Loader />}>
         <div className={styles.userDash}>
           <SideBar page={page} />
@@ -29,7 +27,6 @@ function UserDash() {
         </div>
       </Suspense>
       <Footer />
-      <ScrollToTop />
     </>
   );
 }

@@ -1,6 +1,14 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
-import { Form, Input, Select, ColorPicker, Modal, Upload, Button } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  ColorPicker,
+  Upload,
+  Button,
+  message,
+} from "antd";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import { UploadOutlined } from "@ant-design/icons";
@@ -8,6 +16,7 @@ import styles from "./addVendingForm.module.scss";
 import "leaflet/dist/leaflet.css";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 const states = [
   "Alabama",
   "Alaska",
@@ -154,9 +163,10 @@ const defaultValue = {
     lng: "",
   },
 };
-function AddVendingForm({ vendingOpen, setVendingOpen, id }) {
+function AddVendingForm({ id }) {
   const formValues = useMemo(() => (id ? inisial : defaultValue), [id]);
   const [mapkey, setMapkey] = useState(0);
+  const navigator = useNavigate();
   const [mapCenter, setMapCenter] = useState(
     id
       ? stateCoordinates[states.indexOf(formValues.state)]
@@ -245,147 +255,136 @@ function AddVendingForm({ vendingOpen, setVendingOpen, id }) {
       <Marker position={markerPosition} icon={defaultIcon} />
     ) : null;
   };
+  const handleSubmit = useCallback(() => {
+    message.success("Address Added Successfully");
 
-  const onClose = () => {
-    setVendingOpen(false);
-  };
-
-  const handleSubmit = () => {
-    setVendingOpen(false);
-  };
-
+    navigator("/dashboard/data");
+  }, [navigator]);
   return (
-    <Modal
-      title="Add New Machine"
-      open={vendingOpen}
-      onCancel={onClose}
-      onOk={() => form.submit()}
-      okText="Comfirm"
-      width={window.innerWidth < 700 ? "80svw" : "60svw"}
-      style={{ top: "20px" }}
+    <Form
+      layout="vertical"
+      form={form}
+      className={styles.addVendingForm}
+      onFinish={handleSubmit}
+      initialValues={formValues}
     >
-      <Form
-        layout="vertical"
-        form={form}
-        className={styles.addVendingForm}
-        onFinish={handleSubmit}
-        initialValues={formValues}
-      >
-        <div className={styles.addVendingForm__row}>
-          <Form.Item
-            label="Machine Name"
-            style={{ flex: "1" }}
-            rules={[{ required: true, message: "Machine Name is required" }]}
-            name="machineName"
-          >
-            <Input placeholder="Displayed in Order Page" />
-          </Form.Item>
-
-          <Form.Item
-            label="Machine Color"
-            style={{ flex: "0.3" }}
-            name="machineColor"
-          >
-            <ColorPicker />
-          </Form.Item>
-        </div>
-        <div className={styles.addVendingForm__row}>
-          <Form.Item
-            label="State"
-            style={{ flex: "0.3" }}
-            name="state"
-            rules={[{ required: true, message: "State is required" }]}
-          >
-            <Select
-              placeholder="Select State"
-              onSelect={handleStateChange}
-              options={states.map((state) => ({
-                label: state,
-                value: state.toLowerCase(),
-              }))}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Postal Code"
-            style={{ flex: "0.3" }}
-            name={"postalCode"}
-          >
-            <Input placeholder="Enter Postal Code" />
-          </Form.Item>
-        </div>
-        <div className={styles.addVendingForm__row}>
-          <Form.Item label="Warehouse" style={{ flex: "0.3" }} name="warehouse">
-            <Input disabled />
-          </Form.Item>
-          <Form.Item
-            label="Upload Image of Machine"
-            name="image"
-            style={{ flex: "0.3" }}
-          >
-            <Upload
-              name="file"
-              listType="picture"
-              beforeUpload={() => false}
-              fileList={fileList}
-              onChange={handleChange}
-            >
-              <Button icon={<UploadOutlined />}>Upload</Button>
-            </Upload>
-          </Form.Item>
-        </div>
+      <div className={styles.addVendingForm__row}>
         <Form.Item
-          label="Address"
+          label="Machine Name"
           style={{ flex: "1" }}
-          name="address"
-          rules={[{ required: true, message: "Address is required" }]}
+          rules={[{ required: true, message: "Machine Name is required" }]}
+          name="machineName"
         >
-          <Input.TextArea
-            placeholder="Select location on map to auto-fill this field"
-            rows={2}
+          <Input placeholder="Displayed in Order Page" />
+        </Form.Item>
+
+        <Form.Item
+          label="Machine Color"
+          style={{ flex: "0.3" }}
+          name="machineColor"
+        >
+          <ColorPicker />
+        </Form.Item>
+      </div>
+      <div className={styles.addVendingForm__row}>
+        <Form.Item
+          label="State"
+          style={{ flex: "0.3" }}
+          name="state"
+          rules={[{ required: true, message: "State is required" }]}
+        >
+          <Select
+            placeholder="Select State"
+            onSelect={handleStateChange}
+            options={states.map((state) => ({
+              label: state,
+              value: state.toLowerCase(),
+            }))}
           />
         </Form.Item>
-        <div className={styles.addVendingForm__row}>
-          <Form.Item
-            label="Additional Note (Only for You)"
-            style={{ flex: "1" }}
-            name="additionalNote"
-          >
-            <Input.TextArea placeholder="Enter notes" rows={3} />
-          </Form.Item>
-          <Form.Item
-            label="Address Note (For Driver)"
-            style={{ flex: "1" }}
-            name="addressNote"
-          >
-            <Input.TextArea
-              placeholder="Enter driver-specific instructions"
-              rows={3}
-            />
-          </Form.Item>
-        </div>
-        <Form.Item label="Select Location on Map">
-          <MapContainer
-            key={mapkey}
-            center={mapCenter}
-            zoom={5}
-            scrollWheelZoom={true}
-            style={{
-              height: "400px",
-              width: "100%",
-            }}
-          >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-
-            <LocationMarker />
-          </MapContainer>
+        <Form.Item
+          label="Postal Code"
+          style={{ flex: "0.3" }}
+          name={"postalCode"}
+        >
+          <Input placeholder="Enter Postal Code" />
         </Form.Item>
-      </Form>
-    </Modal>
+      </div>
+      <div className={styles.addVendingForm__row}>
+        <Form.Item label="Warehouse" style={{ flex: "0.3" }} name="warehouse">
+          <Input disabled />
+        </Form.Item>
+        <Form.Item
+          label="Upload Image of Machine"
+          name="image"
+          style={{ flex: "0.3" }}
+        >
+          <Upload
+            name="file"
+            listType="picture"
+            beforeUpload={() => false}
+            fileList={fileList}
+            onChange={handleChange}
+          >
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
+        </Form.Item>
+      </div>
+      <Form.Item
+        label="Address"
+        style={{ flex: "1" }}
+        name="address"
+        rules={[{ required: true, message: "Address is required" }]}
+      >
+        <Input.TextArea
+          placeholder="Select location on map to auto-fill this field"
+          rows={2}
+        />
+      </Form.Item>
+      <div className={styles.addVendingForm__row}>
+        <Form.Item
+          label="Additional Note (Only for You)"
+          style={{ flex: "1" }}
+          name="additionalNote"
+        >
+          <Input.TextArea placeholder="Enter notes" rows={3} />
+        </Form.Item>
+        <Form.Item
+          label="Address Note (For Driver)"
+          style={{ flex: "1" }}
+          name="addressNote"
+        >
+          <Input.TextArea
+            placeholder="Enter driver-specific instructions"
+            rows={3}
+          />
+        </Form.Item>
+      </div>
+      <Form.Item label="Select Location on Map">
+        <MapContainer
+          key={mapkey}
+          center={mapCenter}
+          zoom={5}
+          scrollWheelZoom={true}
+          style={{
+            height: "400px",
+            width: "100%",
+          }}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+          <LocationMarker />
+        </MapContainer>
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
   );
 }
 AddVendingForm.propTypes = {
-  vendingOpen: PropTypes.bool,
-  setVendingOpen: PropTypes.func,
   id: PropTypes.string,
 };
 

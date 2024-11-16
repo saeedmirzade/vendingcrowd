@@ -2,4 +2,8 @@
 .details {
   flex: 1;
   margin-top: 2rem;
+  height: 90svh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 2rem 1rem 0;
 }

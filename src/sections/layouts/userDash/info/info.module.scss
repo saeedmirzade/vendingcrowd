@@ -2,6 +2,10 @@
 .info {
   margin-top: 2rem;
   flex: 1;
+  height: 90svh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-top: 2rem;
   &__head {
     display: flex;
     justify-content: space-between;

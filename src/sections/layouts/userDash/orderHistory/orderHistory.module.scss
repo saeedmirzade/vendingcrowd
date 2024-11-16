@@ -2,6 +2,33 @@
 .orderHistory {
   flex: 1;
   margin-top: 2rem;
+  height: 90svh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  padding: 2rem 1rem 0;
+  h2 {
+    font-size: 1.9rem;
+    @media (max-width: 400px) {
+      font-size: 2.5rem;
+    }
+  }
+  &__top {
+    margin: 0 0 2rem 0;
+    &__add {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 4rem 0;
+      font-size: 4rem;
+      font-weight: 400;
+      border: 3px dashed rgba(0, 0, 0, 0.423);
+      color: rgba(0, 0, 0, 0.423);
+      &:hover {
+        border: 3px dashed colors.$color_pink;
+        color: colors.$color_pink;
+      }
+    }
+  }
   &__head {
     display: flex;
     align-items: center;
@@ -9,12 +36,5 @@
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid colors.$color_border_gray;
-
-    h2 {
-      font-size: 1.9rem;
-      @media (max-width: 400px) {
-        font-size: 2.5rem;
-      }
-    }
   }
 }

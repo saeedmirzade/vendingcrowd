@@ -3,9 +3,11 @@
   flex: 0.25;
   border: 1px solid colors.$color_pink;
   border-radius: 15px;
-  padding: 2rem 1rem;
+  padding: 2rem 1rem 0 1rem;
   margin-top: 2rem;
-  min-height: 70svh;
+  min-height: 90svh;
+  display: flex;
+  flex-direction: column;
   @media (max-width: 1200px) {
     flex: 0.4;
     border-radius: 10px;
@@ -17,6 +19,7 @@
   @media (max-width: 400px) {
     min-height: unset;
   }
+
   li {
     margin-bottom: 1rem;
     button {
@@ -40,6 +43,44 @@
       }
       @media (max-width: 600px) {
         font-size: 1.6rem;
+      }
+    }
+  }
+  &__logOut {
+    margin-top: auto;
+    button {
+      justify-content: center !important;
+      background-color: #ff4d4f;
+      color: colors.$color_white;
+      padding: 1.5rem 2rem !important;
+      font-size: 1.6rem !important;
+      &:hover {
+        background-color: rgba(colors.$color_red_light, 0.5) !important;
+      }
+    }
+  }
+  &__modal {
+    background-color: colors.$color_white;
+    margin-top: 2rem;
+
+    &__head {
+      margin-bottom: 4rem;
+      font-size: 1.8rem;
+    }
+    &__action {
+      display: flex;
+      align-content: center;
+      justify-content: flex-end;
+      gap: 1rem;
+      button {
+        border: 1px solid colors.$color_border_gray;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+        border-radius: 5px;
+        &:hover {
+          background-color: colors.$color_bg_secondry;
+        }
       }
     }
   }

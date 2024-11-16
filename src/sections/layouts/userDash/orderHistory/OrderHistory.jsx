@@ -5,6 +5,7 @@ import styles from "./orderHistory.module.scss";
 import AddVendingForm from "../../../../components/addVendingForm/AddVedingForm";
 import { Select } from "antd";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -87,6 +88,7 @@ const orderList = [
 ];
 
 function OrderHistory() {
+  const navigate = useNavigate();
   const [openOrder, setOpenOrder] = useState(false);
   const [openVending, setOpenVending] = useState(false);
   const [sort, setSort] = useState("date-asc");
@@ -111,59 +113,35 @@ function OrderHistory() {
   }, []);
 
   const renderOrderUnits = useMemo(() => {
-    return orderList.map((order) => (
-      <OrderUnit
-        order={order}
-        key={order.id}
-        setInisial={setInitial}
-        setOpenOrder={setOpenOrder}
-      />
-    ));
+    return orderList.map((order) => <OrderUnit order={order} key={order.id} />);
   }, []);
 
   return (
-    <>
-      <div className={styles.orderHistory}>
-        <div className={styles.orderHistory__head}>
-          <h2>Order History</h2>
-          <Select
-            placeholder="Sort by"
-            style={{ width: 200 }}
-            onChange={onChange}
-            value={sort}
-          >
-            <Option value="date-asc">Date (Ascending)</Option>
-            <Option value="date-desc">Date (Descending)</Option>
-            <Option value="status-open">Status (Open First)</Option>
-            <Option value="status-closed">Status (Closed First)</Option>
-          </Select>
-        </div>
-        {renderOrderUnits}
+    <div className={styles.orderHistory}>
+      <div className={styles.orderHistory__top}>
+        <button
+          className={styles.orderHistory__top__add}
+          onClick={() => navigate("/add-new-order")}
+        >
+          Add Order +
+        </button>
       </div>
-      <AddOrderForm
-        orderPop={openOrder}
-        setOrderPop={setOpenOrder}
-        setAddVending={setOpenVending}
-        initial={initial}
-        setInitial={setInitial}
-      />
-      <AddVendingForm
-        vendingOpen={openVending}
-        setVendingOpen={setOpenVending}
-        inisial={{
-          warehouse: "",
-          address: "",
-          machineName: "",
-          machineColor: "",
-          state: null,
-          postalCode: "",
-          additionalNote: "",
-          addressNote: "",
-          id: "",
-          img: "",
-        }}
-      />
-    </>
+      <div className={styles.orderHistory__head}>
+        <h2>Order History</h2>
+        <Select
+          placeholder="Sort by"
+          style={{ width: 200 }}
+          onChange={onChange}
+          value={sort}
+        >
+          <Option value="date-asc">Date (Ascending)</Option>
+          <Option value="date-desc">Date (Descending)</Option>
+          <Option value="status-open">Status (Open First)</Option>
+          <Option value="status-closed">Status (Closed First)</Option>
+        </Select>
+      </div>
+      {renderOrderUnits}
+    </div>
   );
 }
 

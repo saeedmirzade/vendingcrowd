@@ -1,11 +1,11 @@
-import { useState, lazy, Suspense, useCallback } from "react";
-import AddressList from "../../../../components/addressList/AddressList";
+import { lazy, Suspense } from "react";
+
 import DetailsForm from "../../../../components/detailsForm/DetailsForm";
 import styles from "./details.module.scss";
 import Loader from "../../../../components/Loader";
 
-const AddVendingForm = lazy(() =>
-  import("../../../../components/addVendingForm/AddVedingForm")
+const AddressList = lazy(() =>
+  import("../../../../components/addressList/AddressList")
 );
 
 const states = [
@@ -62,18 +62,11 @@ const states = [
 ];
 
 function Details() {
-  const [addMachine, setAddMachine] = useState(false);
-  const [data, setData] = useState("");
   return (
     <div className={styles.details}>
       <DetailsForm states={states} />
       <Suspense fallback={<Loader />}>
-        <AddressList setVendingOpen={setAddMachine} setData={setData} />
-        <AddVendingForm
-          vendingOpen={addMachine}
-          setVendingOpen={setAddMachine}
-          id={data}
-        />
+        <AddressList />
       </Suspense>
     </div>
   );

@@ -6,6 +6,7 @@
   flex-direction: column;
   h2 {
     margin: 2rem 0;
+    font-size: 2rem;
   }
   &__add {
     width: 100%;
@@ -13,10 +14,10 @@
     padding: 4rem 0;
     font-size: 4rem;
     font-weight: 200;
-    border: 2px dashed rgba(0, 0, 0, 0.123);
+    border: 3px dashed rgba(0, 0, 0, 0.123);
     color: rgba(0, 0, 0, 0.123);
     &:hover {
-      border: 2px dashed colors.$color_pink;
+      border: 3px dashed colors.$color_pink;
       color: colors.$color_pink;
     }
   }
